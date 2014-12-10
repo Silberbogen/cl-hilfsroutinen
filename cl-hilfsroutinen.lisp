@@ -209,11 +209,7 @@ Beispiel: (faktor 20) =>  2432902008176640000"
 	(push a lst)))
 
 
-(defmemo fibonacci-folge-2 (max)
-  (loop for i from 1 to max collect (fibonaccizahl i)))
-
-
-(defmemo fibonaccizahl (n &optional (a 0) (b 1))
+(defun fibonaccizahl (n &optional (a 0) (b 1))
  "Bildet die Fibonaccizahl zur n. Zahl; Beispiel: (fibonaccizahl 20) => 6765"
   (if (zerop n)
       a
