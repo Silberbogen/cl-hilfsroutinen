@@ -21,14 +21,14 @@
 
 (in-package #:cl-hilfsroutinen)
 
-;;; "cl-hilfsroutinen" goes here. Hacks and glory await!
 
 ;;; #############
 ;;; # Variablen #
 ;;; #############
 
 
-(defvar *collatz-hash-table* (make-hash-table))
+(defvar *collatz-hash-table* (make-hash-table)
+  "Enthält alle bereits berechneten Collatz-Zahlen.")
 
 
 ;;; ##############
@@ -43,7 +43,7 @@
                       collect (aref array i j))))
 
 
-(defun achteckszahl (n)
+(defmemo achteckszahl (n)
   "Gibt die Achteckszahl des gewünschten Rangs aus."
  (* (- (* 3 n) 2) n))
 
@@ -144,7 +144,7 @@ Beispiel: (collatz-sequenz 19) => (19 58 29 88 44 22 11 34 17 52 26 13 40 20 10 
 		   (nreconc lows highs))))
 
 
-(defun dreieckszahl (n)
+(defmemo dreieckszahl (n)
   "Gibt die Dreieckszahl des gewünschten Rangs aus."
   (/ (* n (1+ n)) 2))
 
@@ -190,7 +190,7 @@ Beispiel: (durchschnitt 2 3 4) => 3"
 		(return antw)))))
 
 
-(defun faktor (n)
+(defmemo faktor (n)
   "(faktor zahl)
 FAKTOR berechnet den Faktor einer Zahl.
 Ein Faktor von 6 wird zum Beispiel errechnet, indem man die Werte von 1 bis 6 miteinander malnimmt, also 1 * 2 * 3 * 4 * 5 * 6. Faktoren haben die unangenehme Eigenschaft, das sie sehr schnell sehr groß werden können.
@@ -209,26 +209,25 @@ Beispiel: (faktor 20) =>  2432902008176640000"
 	(push a lst)))
 
 
-(defun fibonaccizahl (n &optional (a 0) (b 1))
+(defmemo fibonacci-folge-2 (max)
+  (loop for i from 1 to max collect (fibonaccizahl i)))
+
+
+(defmemo fibonaccizahl (n &optional (a 0) (b 1))
  "Bildet die Fibonaccizahl zur n. Zahl; Beispiel: (fibonaccizahl 20) => 6765"
   (if (zerop n)
       a
 	  (fibonaccizahl (1- n) b (+ a b))))
 
 
-(defun fünfeckszahl (n)
+(defmemo fünfeckszahl (n)
   "Gibt die Fünfeckszahl des gewünschten Rangs aus."
   (/ (* n (1- (* 3 n))) 2))
 
 
 (defun fünfeckszahl-folge (max &optional lst (len (length lst)))
   "Erstellt eine Liste aller Fünfecks-Zahlen von der ersten bis zur MAXten."
-  (when (zerop len)
-	(setf len 1))
-  (do* ((i len (1+ i)))
-	   ((> i max)
-		(nreverse lst))
-	(push (fünfeckszahl i) lst)))
+  (loop for i from 1 to max collect (fünfeckszahl i)))
 
 
 (defun gleichwertige-elemente (a b)
@@ -273,7 +272,7 @@ Beispiel: (mischen '(1 2 3 4 5)) => (5 2 1 4 3)"
 	       (t 'kante))))
 
 
-(defun nächste-primzahl (&optional (n 0))
+(defmemo nächste-primzahl (&optional (n 0))
   "Ein Primzahlen-Generator, der die nächste Primzahl nach der angegebenen Zahl berechnet.
 Beispiele:
    (nächste-primzahl 19) => 23
@@ -287,7 +286,7 @@ Beispiele:
 			  i)))))
 
 
-(defun nth-permutation (n lst)
+(defmemo nth-permutation (n lst)
   "Gibt die nte Permutation einer Liste zurück. Die Zählung beginnt bei NULL."
   (if (zerop n)
 	  lst
@@ -329,7 +328,7 @@ Beispiele:
     phi))
 
 
-(defun primfaktoren (n)
+(defmemo primfaktoren (n)
   "(primfaktoren n)
 Gibt eine Liste der Primfaktoren der Zahl N zurück.
 Beispiel: (primfaktoren 1000) => (2 2 2 5 5 5)"  
@@ -339,11 +338,12 @@ Beispiel: (primfaktoren 1000) => (2 2 2 5 5 5)"
 		((> i limit)
 		 (list n))
 	  (when (zerop (mod n i))
-		(return-from primfaktoren
+										;		(return-from primfaktoren
+		(return
 		  (cons i (primfaktoren (/ n i))))))))
 
 
-(defun primzahl-rang (n)
+(defmemo primzahl-rang (n)
   "Erzeugte die Primzahl eines bestimmten Rangs.
 Beispiele:
    (primzahl-rang 1) => 2
@@ -381,7 +381,7 @@ Beispiele:
         as (a b) on zahlen if a sum (if (and b (< a b)) (- a) a)))))
 
 
-(defun sechseckszahl (n)
+(defmemo sechseckszahl (n)
   "Gibt die Sechseckszahl des gewünschten Rangs aus."
   (* n (1- (* 2 n))))
 
@@ -396,7 +396,7 @@ Beispiele:
 				 do (setf (bit composites composite) 1)))))
 
 
-(defun siebeneckszahl (n)
+(defmemo siebeneckszahl (n)
   "Gibt die Siebeneckszahl des gewünschten Rangs aus."
   (/ (* n(- (* 5 n) 3)) 2))
 

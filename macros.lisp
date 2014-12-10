@@ -29,6 +29,8 @@
 	 ,@body))
 
 
+
+
 (defmacro dosequence ((var seq &optional result) &body body
 					  &aux (seq-len (length seq)))
   "Iteriert über die gegebene Sequenz SEQ."
