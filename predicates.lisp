@@ -60,12 +60,8 @@ Beispiele: (echte-teilmenge-p '(rot grün) '(grün blau rot gelb)) => T
 
 (defun fünfeckszahlp (n)
   "Prüft ob eine Zahl eine Fünfeckszahl ist."
-  (let ((lst (do* ((i 10 (+ i 10))
-				   (lst (fünfeckszahl-folge i) (fünfeckszahl-folge i lst)))
-				  ((>= (first (last lst)) n)
-				   lst))))
-	(when (member n lst)
-	  't)))
+  (let ((p (/ (1+ (sqrt (1+ (* 24 n)))) 6)))
+    (= p (truncate p))))
 
 
 (defun j-oder-n-p (&optional ctrl &rest args)
