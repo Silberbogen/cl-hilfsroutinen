@@ -61,10 +61,10 @@
    #:but-nth
    #:collatz-rang
    #:collatz-sequenz
-   #:divisoren
    #:dreieckszahl
    #:dreisatz
    #:durchschnitt
+   #:echte-teiler
    #:eingabe
    #:faktor
    #:fibonacci
@@ -93,6 +93,7 @@
    #:summe-der-farey-folge
    #:summe-fortlaufender-primzahlen
    #:tausche-ziffer
+   #:teiler
    #:temperatur
    #:textausgabe
    #:text-auswahl

@@ -120,28 +120,6 @@ Beispiel: (collatz-sequenz 19) => (19 58 29 88 44 22 11 34 17 52 26 13 40 20 10 
 				   (collatz-sequenz n lst))))))))
 
 
-(defun divisoren (n &optional (ohne-selbst nil)
-						 &aux (lows nil) (highs nil) (limit (isqrt n)))
-"(divisoren 28) => (1 2 4 7 14 28)
- (divisoren 8128) => (1 2 4 8 16 32 64 127 254 508 1016 2032 4064 8128)
- (divisoren 2000 t) => (1 2 4 5 8 10 16 20 25 40 50 80 100 125 200 250 400 500 1000)"
-(let ((feld (make-array (1+ limit) :element-type 'bit :initial-element 1)))
-  (loop for i from 1 to limit
-	   do(unless (zerop (elt feld i))
-		   (multiple-value-bind (quotient remainder)
-			   (floor n i)
-			 (if (zerop remainder)
-				 (progn
-				   (unless (= i quotient)
-					 (push i lows)
-					 (push quotient highs)))
-				 (loop for j from i to limit by i do
-					  (setf (elt feld j) 0))))))
-	   (when (= n (expt limit 2))
-		 (push limit highs))
-	   (if ohne-selbst
-		   (butlast (nreconc lows highs))
-		   (nreconc lows highs))))
 
 
 (defmemo dreieckszahl (n)
@@ -174,6 +152,13 @@ Beispiel: (durchschnitt 2 3 4) => 3"
       nil
       (/ (reduce #'+ lst) 
 		 (length lst)))) 
+
+
+(defun echte-teiler (n)
+  "(echte-teiler 28) => (1 2 4 7 14)
+ (echte-teiler 8128) => (1 2 4 8 16 32 64 127 254 508 1016 2032 4064)
+ (echte-teiler 2000) => (1 2 4 5 8 10 16 20 25 40 50 80 100 125 200 250 400 500 1000)"
+  (teiler n t))
 
 
 (defun eingabe (&optional ctrl &rest args)
@@ -441,6 +426,30 @@ Beispiele:
 							 new-dig
 							 x))
 	   (zahl->liste n))))
+
+
+(defun teiler (n &optional (ohne-selbst nil)
+						 &aux (lows nil) (highs nil) (limit (isqrt n)))
+"(teiler 28) => (1 2 4 7 14 28)
+ (teiler 8128) => (1 2 4 8 16 32 64 127 254 508 1016 2032 4064 8128)
+ (teiler 2000 t) => (1 2 4 5 8 10 16 20 25 40 50 80 100 125 200 250 400 500 1000)"
+(let ((feld (make-array (1+ limit) :element-type 'bit :initial-element 1)))
+  (loop for i from 1 to limit
+	   do(unless (zerop (elt feld i))
+		   (multiple-value-bind (quotient remainder)
+			   (floor n i)
+			 (if (zerop remainder)
+				 (progn
+				   (unless (= i quotient)
+					 (push i lows)
+					 (push quotient highs)))
+				 (loop for j from i to limit by i do
+					  (setf (elt feld j) 0))))))
+	   (when (= n (expt limit 2))
+		 (push limit highs))
+	   (if ohne-selbst
+		   (butlast (nreconc lows highs))
+		   (nreconc lows highs))))
 
 
 (defun temperatur (n &optional (smbl 'celsius))
