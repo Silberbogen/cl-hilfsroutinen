@@ -85,14 +85,14 @@ Beispiel: (but-nth 4 '(1 2 3 4 5 6 7 8 9)) => (1 2 3 4 6 7 8 9)"
 			(but-nth (1- n) (rest lst)))))
 
 
-(defun collatz-rang (n &optional (durchgang 1))
+(defun collatz (n &optional (durchgang 1))
   "Gibt die Länge der Sequenz der Collatz-Folge beginnend mit n zurück."
   (cond ((= n 1)
-		 (return-from collatz-rang durchgang))
+		 (return-from collatz durchgang))
 		((evenp n)
-		 (collatz-rang (/ n 2) (1+ durchgang)))
+		 (collatz (/ n 2) (1+ durchgang)))
 		(t
-		 (collatz-rang (1+ (* 3 n)) (1+ durchgang)))))
+		 (collatz (1+ (* 3 n)) (1+ durchgang)))))
 
 
 (defun collatz-sequenz (n &optional (lst nil))
@@ -118,8 +118,6 @@ Beispiel: (collatz-sequenz 19) => (19 58 29 88 44 22 11 34 17 52 26 13 40 20 10 
 				  (t
 				   (setf n (1+ (* 3 n)))
 				   (collatz-sequenz n lst))))))))
-
-
 
 
 (defmemo dreieckszahl (n)
@@ -149,7 +147,7 @@ Beispiel umgekehrt proportional:
 DURCHSCHNITT ermöglicht es, den Durchschnitt einer Reihe von Zahlen zu berechnen.
 Beispiel: (durchschnitt 2 3 4) => 3"
   (if (null lst)
-      nil
+      (error "~&Sie haben keinerlei Werte zur Berechnung eines Durchschnitts übergeben.~%")
       (/ (reduce #'+ lst) 
 		 (length lst)))) 
 

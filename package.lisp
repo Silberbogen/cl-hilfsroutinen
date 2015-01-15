@@ -59,7 +59,7 @@
    #:alphabetischer-wert
    #:arabisch->römisch
    #:but-nth
-   #:collatz-rang
+   #:collatz
    #:collatz-sequenz
    #:dreieckszahl
    #:dreisatz
