@@ -113,6 +113,8 @@ Beispiele: (echte-teilmenge-p '(rot grün) '(grün blau rot gelb)) => T
 			  (return nil)))))))
 
 
+
+
 (defun lychrel-zahl-p (n &optional (versuche 50))
   "Jede natürliche Zahl n, die nicht durch eine endliche Anzahl von Inversionen und Additionen zu einem Zahlen-Palindrom führt, wird als Lychrel-Zahl bezeichnet. Als Inversion versteht man hier das Bilden der spiegelverkehrten Zahl m. Führt die Addition n+m dabei zu einem Zahlenpalindrom, ist der Algorithmus beendet. Falls nicht, wird durch erneute Inversion und Addition dieser Vorgang solange ausgeführt, bis das Ergebnis ein Palindrom ist.
 Beispiele
@@ -123,12 +125,13 @@ Beispiele
         15565 + 56551 = 72116
         72116 + 61127 = 133243
         133243 + 342331 = 475574 (ein Palindrom)"
-  (if (zerop versuche)
-	  t
-	  (let ((kandidat (+ n (liste->zahl (reverse (zahl->liste n))))))
-		(if (palindromp kandidat)
-			nil
-			(lychrel-zahl-p kandidat (1- versuche))))))
+  (cond ((palindromp n)
+         (return-from lychrel-zahl-p 'nil))
+        ((zerop versuche)
+         (return-from lychrel-zahl-p 't))
+        (t
+         (lychrel-zahl-p (+ n (liste->zahl (reverse (zahl->liste n))))
+                         (1- versuche)))))
 
 
 (defun palindromp (seq)
