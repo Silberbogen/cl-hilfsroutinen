@@ -81,7 +81,7 @@
    #:nur-ziffern
    #:phi-tabelle
    #:primfaktoren
-   #:primzahl-rang
+   #:primzahl
    #:prozent
    #:quadratzahl
    #:römisch->arabisch
