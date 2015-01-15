@@ -23,6 +23,8 @@
   (:nicknames :hilfsroutinen :hilfe :hr)
   (:use :common-lisp)
   (:export
+   ;; MEMOS
+   #:lösche-alle-memos
    ;; MACROS
    #:with-gensym
    #:dosequence
@@ -54,7 +56,6 @@
    ;; FUNCTIONS
    #:2d-array->list
    #:achteckszahl
-   #:addiere-ziffern
    #:alle-permutationen
    #:alphabetischer-wert
    #:arabisch->römisch
@@ -84,6 +85,7 @@
    #:primzahl
    #:prozent
    #:quadratzahl
+   #:quersumme
    #:römisch->arabisch
    #:sechseckszahl
    #:sieb-des-eratosthenes

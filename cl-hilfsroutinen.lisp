@@ -48,14 +48,6 @@
  (* (- (* 3 n) 2) n))
 
 
-(defun addiere-ziffern (n &optional (sum 0))
-  "Nimmt eine Zahl entgegen und gibt die Summe all ihrer Ziffern zurück.
-Beispiel: (addiere-ziffern 125) => 8"
-  (if (zerop n)
-	  sum
-	  (addiere-ziffern (truncate (/ n 10)) (+ sum (rem n 10)))))
-
-
 (defun alle-permutationen (lst)
   "Alle Permutationen einer Liste erzeugen; Beispiel: (alle-permutationen (list 'a 'b 'c 'd 'e))"
   (if (null lst) '(nil)
@@ -346,6 +338,14 @@ Beispiele:
 (defun quadratzahl (n)
   "Berechne die Quadratzahl von n."
   (expt n 2))
+
+
+(defun quersumme (n &optional (sum 0))
+  "Nimmt eine Zahl entgegen und gibt die Summe all ihrer Ziffern zurück.
+Beispiel: (quersumme 125) => 8"
+  (if (zerop n)
+	  sum
+	  (quersumme (truncate (/ n 10)) (+ sum (rem n 10)))))
 
 
 (defun römisch->arabisch (str)

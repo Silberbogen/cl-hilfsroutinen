@@ -33,6 +33,30 @@
 	(when table (clrhash table))))
 
 
+(defun lösche-alle-memos ()
+  (dolist (i '(achteckszahl
+               dreieckszahl
+               faktor
+               fibonacci
+               fünfeckszahl
+               nächste-primzahl
+               nth-permutation
+               primfaktoren
+               primzahl
+               siebeneckszahl))
+    (lösche-memorisiere i)))
+
+;  (lösche-memorisiere faktor)
+;  (lösche-memorisiere fibonacci)
+;  (lösche-memorisiere fünfeckszahl)
+;  (lösche-memorisiere nächste-primzahl)
+;  (lösche-memorisiere nth-permutation)
+;  (lösche-memorisiere primfaktoren)
+;  (lösche-memorisiere primzahl)
+;  (lösche-memorisiere siebeneckszahl))
+
+
+
 (defun memorisiere (fn-name &key (key #'first) (test #'eql))
   "Ersetzt FN-NAME's globale definition mit einer MEMORIZE-Version."
   (setf (symbol-function fn-name)
