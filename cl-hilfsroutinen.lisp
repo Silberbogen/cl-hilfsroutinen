@@ -3,9 +3,9 @@
 ;;;; Dateiname: cl-hilfsroutinen.lisp
 ;;;; Beschreibung: Routinen, die mich bei diversen Aufgaben unterstützen
 ;;;; ------------------------------------------------------------------------
-;;;; Author: Sascha Biermanns, <skkd PUNKT h4k1n9 AT yahoo PUNKT de>
+;;;; Author: Sascha K. Biermanns, <skkd PUNKT h4k1n9 AT yahoo PUNKT de>
 ;;;; Lizenz: ISC
-;;;; Copyright (C) 2011-2015 Sascha Biermanns
+;;;; Copyright (C) 2011-2015 Sascha K. Biermanns
 ;;;; Permission to use, copy, modify, and/or distribute this software for any
 ;;;; purpose with or without fee is hereby granted, provided that the above
 ;;;; copyright notice and this permission notice appear in all copies.
@@ -198,6 +198,13 @@ Beispiel: (faktor 20) =>  2432902008176640000"
   (reduce #'* (loop for i from 1 to n collect i)))
 
 
+(defmemo fibonacci (n)
+  "Bildet die Fibonaccizahl zur n. Zahl; Beispiel: (fibonacci 20) => 6765"
+  (cond ((zerop n) 0)
+        ((= n 1) 1)
+        (t (+ (fibonacci (1- n)) (fibonacci (- n 2))))))
+
+
 (defun fibonacci-folge (max)
   "Erstellt eine Liste aller Fibonacci-Zahlen von der ersten bis zur MAXten."
   (do ((i 1 (1+ i))
@@ -209,19 +216,12 @@ Beispiel: (faktor 20) =>  2432902008176640000"
 	(push a lst)))
 
 
-(defmemo fibonacci (n)
-  "Bildet die Fibonaccizahl zur n. Zahl; Beispiel: (fibonacci 20) => 6765"
-  (cond ((zerop n) 0)
-        ((= n 1) 1)
-        (t (+ (fibonacci (1- n)) (fibonacci (- n 2))))))
-
-
 (defmemo fünfeckszahl (n)
   "Gibt die Fünfeckszahl des gewünschten Rangs aus."
   (/ (* n (1- (* 3 n))) 2))
 
 
-(defun fünfeckszahl-folge (max &optional lst (len (length lst)))
+(defun fünfeckszahl-folge (max)
   "Erstellt eine Liste aller Fünfecks-Zahlen von der ersten bis zur MAXten."
   (loop for i from 1 to max collect (fünfeckszahl i)))
 
@@ -339,12 +339,12 @@ Beispiel: (primfaktoren 1000) => (2 2 2 5 5 5)"
 		  (cons i (primfaktoren (/ n i))))))))
 
 
-(defmemo primzahl-rang (n)
+(defmemo primzahl (n)
   "Erzeugte die Primzahl eines bestimmten Rangs.
 Beispiele:
-   (primzahl-rang 1) => 2
-   (primzahl-rang 1000) => 7919
-   (primzahl-rang 100000) => 1299709"
+   (primzahl 1) => 2
+   (primzahl 1000) => 7919
+   (primzahl 100000) => 1299709"
   (labels ((nth-primzahl (x &optional (rang 1) (last-x 0))
 			 (cond ((< x 1)
 					nil)

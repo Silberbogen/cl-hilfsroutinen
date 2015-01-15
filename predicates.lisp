@@ -3,9 +3,9 @@
 ;;;; Dateiname: predicates.lisp
 ;;;; Beschreibung: Routinen, die mich bei diversen Aufgaben unterstützen
 ;;;; ------------------------------------------------------------------------
-;;;; Author: Sascha Biermanns, <skkd.h4k1n9@yahoo.de>
+;;;; Author: Sascha K. Biermanns, <skkd PUNKT h4k1n9 AT yahoo PUNKT de>
 ;;;; Lizenz: ISC
-;;;; Copyright (C) 2011-2014 Sascha Biermanns
+;;;; Copyright (C) 2011-2015 Sascha K. Biermanns
 ;;;; Permission to use, copy, modify, and/or distribute this software for any
 ;;;; purpose with or without fee is hereby granted, provided that the above
 ;;;; copyright notice and this permission notice appear in all copies.
@@ -201,5 +201,4 @@ Beispiele:
 (defun vollkommene-zahl-p (n)
   "Eine natürliche Zahl n wird vollkommene Zahl (auch perfekte Zahl) genannt, wenn sie gleich der Summe σ*(n) aller ihrer (positiven) Teiler außer sich selbst ist. Eine äquivalente Definition lautet: eine vollkommene Zahl n ist eine Zahl, die halb so groß ist wie die Summe aller ihrer positiven Teiler (sie selbst eingeschlossen), d. h. σ(n) = 2n. Die kleinsten drei vollkommenen Zahlen sind 6, 28 und 496. Alle bekannten vollkommenen Zahlen sind gerade und von Mersenne-Primzahlen abgeleitet."
   (= n (apply #'+ (divisoren n t))))
-
 
