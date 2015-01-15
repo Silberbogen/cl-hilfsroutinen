@@ -168,16 +168,15 @@ Beispiele: (palindromp '(1 2 3 4 3 2 1)) => T
 Beispiele:
    (primzahlp 24) => NIL
    (primzahlp 29) => T
-   (primzahlp 1299709) => T"  
-  (when (and (integerp n) (> n 1))
-	(let ((max-d (isqrt n)))
-	  (do ((d 2 (incf d (if (evenp d)
-							1
-							2))))
-		  ((cond ((> d max-d)
-				  (return t))
-				 ((zerop (rem n d))
-				  (return nil))))))))
+   (primzahlp 1299709) => T"
+  (cond ((<= n 3)
+         (return-from primzahlp (>= n 2)))
+        ((or (evenp n) (zerop (mod n 3)))
+         (return-from primzahlp 'nil)))
+  (loop for i from 5 to (1+ (sqrt n)) by 6
+     when (or (zerop (mod n i)) (zerop (mod n (+ i 2))))
+     return 'nil
+     finally (return 't)))
 
 
 (defun quadratzahlp (n)
