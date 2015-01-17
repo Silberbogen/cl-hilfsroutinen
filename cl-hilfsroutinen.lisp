@@ -97,9 +97,7 @@ Beispiel: (collatz-sequenz 19) => (19 58 29 88 44 22 11 34 17 52 26 13 40 20 10 
 			 (append lst1 lst2)))
 	(let ((n-lst (gethash n *collatz-hash-table* 'nil)))
 	  (if n-lst
-		  (progn
-			(let ((nr (nreverse lst)))
-			  (zurück nr n-lst)))
+          (zurück (nreverse lst) n-lst)
 		  (progn
 			(push n lst)
 			(cond ((= n 1)
