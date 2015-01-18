@@ -247,12 +247,11 @@ Beispiele:
    (nächste-primzahl 19) => 23
    (nächste-primzahl 20) => 23
    (nächste-primzahl 23) => 29"
-  (cond ((< n 2)
-		 2)
-		(t
-		 (do ((i (+ n (if (evenp n) 1 2)) (+ i 2)))
-			 ((primzahlp i)
-			  i)))))
+  (if (< n 2)
+      2
+      (loop for i upfrom (+ n  (if (evenp n) 1 2)) by 2
+         when (primzahlp i)
+         return i)))
 
 
 (defmemo nth-permutation (n lst)
@@ -302,14 +301,12 @@ Beispiele:
 Gibt eine Liste der Primfaktoren der Zahl N zurück.
 Beispiel: (primfaktoren 1000) => (2 2 2 5 5 5)"  
   (when (> n 1)
-	(do ((i 2 (1+ i))
+	(do ((i 2 (nächste-primzahl i))
 		 (limit (1+ (isqrt n))))
 		((> i limit)
 		 (list n))
 	  (when (zerop (mod n i))
-										;		(return-from primfaktoren
-		(return
-		  (cons i (primfaktoren (/ n i))))))))
+		(return (cons i (primfaktoren (/ n i))))))))
 
 
 (defmemo primzahl (n)
