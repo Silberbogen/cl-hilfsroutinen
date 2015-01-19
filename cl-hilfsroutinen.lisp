@@ -115,21 +115,29 @@ Beispiel: (collatz-sequenz 19) => (19 58 29 88 44 22 11 34 17 52 26 13 40 20 10 
   (/ (* n (1+ n)) 2))
 
 
-(defun dreisatz (menge a b &optional (modus 'p))
+(defun dreisatz (&key a b c (modus :proportional))
   "Ein einfacher Dreisatz-Löser.
+
 Beispiel proportional:
 Ein Auto fährt mit 12 Litern 162 km weit. Wie weit fährt es mit 20 Litern?
-   (dreisatz 162 12 20 'p) => 270
+Der Lösungsansatz hier ist proportional. A (162 km) verhält sich zu B (12 l)
+wie X zu C (20 l), oder: je mehr Liter man zu Verfügung hat, umso weiter rollt
+das Automobil.
+
+   (dreisatz :a 162 :b 12 :c 20) => 270
+
 Beispiel umgekehrt proportional:
 8 Pferde fressen in 5 Tagen den gesamten Hafervorat. Wie lange würde dieselbe Menge bei 10 Pferden reichen?
-   (dreisatz 5 8 10 'u) => 4"
+Der Lösungsansatz ist hier umgekehrt proportional. B (8 Pferde) fressen in A (5 Tagen) den gesamten Hafervorrat. Wie lange würde dieselbe Menge X bei C (10 Pferden) reichen, oder je mehr Pferde, desto weniger Tage reicht der Futtervorrat.
+
+   (dreisatz :b 8 :a 5 :c 10 :modus :unproportional) => 4"
   (case modus
-	((p proportional)
-	 (* (/ menge a) b))
-	((u unproportional umgekehrt-proportional)
-	 (/ (* menge a) b))
+	((:p :proportional)
+	 (* (/ a b ) c))
+	((:u :unproportional :umgekehrt-proportional)
+	 (/ (* a b ) c))
 	(otherwise
-	 (error "~&Sie haben statt 'p oder 'u den Wert ~A als vierten Parameter angegeben.~%" modus))))
+	 (error "~&Sie haben statt :p oder :u den Wert ~A als :MODUS angegeben.~%" modus))))
 
 
 (defun durchschnitt (&rest lst)
