@@ -22,7 +22,7 @@
 (asdf:defsystem #:cl-hilfsroutinen
   :description "Routinen, die mich bei diversen Aufgaben unterstützen"
   :author "Sascha Biermanns <skkd.h4k1n9@yahoo.de>"
-  :license "ISC"
+  :license "GPL v3"
   :serial t
   :components ((:static-file "LICENSE")
 			   (:file "package")
