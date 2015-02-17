@@ -106,6 +106,7 @@
    #:umwandeln
    #:wochentag
    #:würfelwurf
+   #:wurzel
    #:zahl->liste
    #:zähle-buchstaben
    #:ziffer-summe))

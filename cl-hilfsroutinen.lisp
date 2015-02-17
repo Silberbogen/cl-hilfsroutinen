@@ -586,6 +586,13 @@ Beispiel: (würfelwurf) => 4"
   (1+ (random n)))
 
 
+(defun wurzel (n &optional (x 2))
+  "(wurzel n &optional x)
+WURZEL zieht die Xte Wurzel aus N. Wird X nicht explizit angegeben, so wird X als 2 angenommen, wodurch die Quadratwurzel gezogen wird.
+Beispiel: (wurzel 81 4) => 3.0"
+  (expt n (/ x)))
+
+
 (defun zahl->liste (n)
   "Die übergebene Zahl wird als Liste von Ziffern zurückgegeben."
   (map 'list #'digit-char-p (write-to-string n)))
