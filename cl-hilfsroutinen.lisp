@@ -52,10 +52,11 @@
 
 (defun alle-permutationen (lst)
   "Alle Permutationen einer Liste erzeugen; Beispiel: (alle-permutationen (list 'a 'b 'c 'd 'e))"
-  (if (null lst) '(nil)
-      (mapcan #'(lambda (x)
-				  (mapcar #'(lambda (y) (cons x y))
-						  (alle-permutationen (remove x lst :count 1)))) lst)))
+  (cond ((endp lst) nil)
+		(t (mapcan #'(lambda (x)
+					   (mapcar #'(lambda (y) (cons x y))
+							   (alle-permutationen (remove x lst :count 1))))
+				   lst)))
 
 
 (defun alphabetischer-wert (str)
