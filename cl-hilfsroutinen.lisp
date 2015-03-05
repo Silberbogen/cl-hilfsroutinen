@@ -56,7 +56,7 @@
 		(t (mapcan #'(lambda (x)
 					   (mapcar #'(lambda (y) (cons x y))
 							   (alle-permutationen (remove x lst :count 1))))
-				   lst)))
+				   lst))))
 
 
 (defun alphabetischer-wert (str)
@@ -82,12 +82,9 @@ Beispiel: (but-nth 4 '(1 2 3 4 5 6 7 8 9)) => (1 2 3 4 6 7 8 9)"
 
 (defun collatz (n &optional (durchgang 1))
   "Gibt die Länge der Sequenz der Collatz-Folge beginnend mit n zurück."
-  (cond ((= n 1)
-		 (return-from collatz durchgang))
-		((evenp n)
-		 (collatz (/ n 2) (1+ durchgang)))
-		(t
-		 (collatz (1+ (* 3 n)) (1+ durchgang)))))
+  (cond ((= n 1) (return-from collatz durchgang))
+		((evenp n) (collatz (/ n 2) (1+ durchgang)))
+		(t (collatz (1+ (* 3 n)) (1+ durchgang)))))
 
 
 (defun collatz-sequenz (n &optional (lst nil))
@@ -99,18 +96,14 @@ Beispiel: (collatz-sequenz 19) => (19 58 29 88 44 22 11 34 17 52 26 13 40 20 10 
 					  lst1)
 			 (append lst1 lst2)))
 	(let ((n-lst (gethash n *collatz-hash-table* 'nil)))
-	  (if n-lst
-          (zurück (nreverse lst) n-lst)
-		  (progn
-			(push n lst)
-			(cond ((= n 1)
-				   (zurück (reverse lst)))
-				  ((evenp n)
-				   (setf n (/ n 2))
-				   (collatz-sequenz n lst))
-				  (t
-				   (setf n (1+ (* 3 n)))
-				   (collatz-sequenz n lst))))))))
+	  (cond (n-lst (zurück (nreverse lst) n-lst))
+			(t (push n lst)
+			   (cond ((= n 1) (zurück (reverse lst)))
+					 ((evenp n)
+					  (setf n (/ n 2))
+					  (collatz-sequenz n lst))
+					 (t (setf n (1+ (* 3 n)))
+						(collatz-sequenz n lst))))))))
 
 
 (defmemo dreieckszahl (n)
@@ -120,19 +113,15 @@ Beispiel: (collatz-sequenz 19) => (19 58 29 88 44 22 11 34 17 52 26 13 40 20 10 
 
 (defun dreisatz (&key a b c (modus :proportional))
   "Ein einfacher Dreisatz-Löser.
-
 Beispiel proportional:
 Ein Auto fährt mit 12 Litern 162 km weit. Wie weit fährt es mit 20 Litern?
 Der Lösungsansatz hier ist proportional. A (162 km) verhält sich zu B (12 l)
 wie X zu C (20 l), oder: je mehr Liter man zu Verfügung hat, umso weiter rollt
 das Automobil.
-
    (dreisatz :a 162 :b 12 :c 20) => 270
-
 Beispiel umgekehrt proportional:
 8 Pferde fressen in 5 Tagen den gesamten Hafervorat. Wie lange würde dieselbe Menge bei 10 Pferden reichen?
 Der Lösungsansatz ist hier umgekehrt proportional. B (8 Pferde) fressen in A (5 Tagen) den gesamten Hafervorrat. Wie lange würde dieselbe Menge X bei C (10 Pferden) reichen, oder je mehr Pferde, desto weniger Tage reicht der Futtervorrat.
-
    (dreisatz :b 8 :a 5 :c 10 :modus :unproportional) => 4"
   (case modus
 	((:p :proportional)
@@ -147,10 +136,8 @@ Der Lösungsansatz ist hier umgekehrt proportional. B (8 Pferde) fressen in A (5
   "(durchschnitt lst)
 DURCHSCHNITT ermöglicht es, den Durchschnitt einer Reihe von Zahlen zu berechnen.
 Beispiel: (durchschnitt 2 3 4) => 3"
-  (if (null lst)
-      (error "~&Sie haben keinerlei Werte zur Berechnung eines Durchschnitts übergeben.~%")
-      (/ (reduce #'+ lst) 
-		 (length lst)))) 
+  (if lst (/ (reduce #'+ lst) (length lst)) 
+	  (error "~&Sie haben keinerlei Werte zur Berechnung eines Durchschnitts übergeben.~%")))
 
 
 (defun echte-teiler (n)
@@ -163,15 +150,14 @@ Beispiel: (durchschnitt 2 3 4) => 3"
 (defun eingabe (&optional ctrl &rest args)
   "Erzwingt eine Eingabe."
   (do ((danach nil t)
-	   (ctrl (concatenate 'string "~&" ctrl " > ")))
-	  (nil)
-	(when danach
-	  (format *query-io* "~&Bitte tippe deine Antwort ein und drücke dann die Eingabe-Taste.~%"))
+	   (ctrl (concatenate 'string "~&" ctrl " > "))
+	   (antwort ""))
+	  ((string/= antwort "")
+	   antwort)
+	(when danach (format *query-io* "~&Bitte tippe deine Antwort ein und drücke dann die Eingabe-Taste.~%"))
 	(apply #'format *query-io* ctrl args)
 	(force-output *query-io*)
-	(let ((antw (string-trim " " (read-line *query-io*))))
-	  (unless (string-equal antw "")
-		(return antw)))))
+	(setf antwort (string-trim " " (read-line *query-io*)))))
 
 
 (defmemo faktor (n)
@@ -214,8 +200,7 @@ Beispiel: (faktor 20) =>  2432902008176640000"
   "(gleichwertige-elemente liste1 liste2)
 GLEICHWERTIGE-ELEMENTE überprüft, ob Liste1 und Liste2 über dieselben Elemente verfügen. Die Reihenfolge der Elemente spielt hierbei keinerlei Rolle.
 Beispiel: (gleichwertige-elemente '(rot blau grün) '(grün rot blau)) => "T
-	   (when (and (subsetp a b) (subsetp b a))
-	     t))
+	   (when (and (subsetp a b) (subsetp b a)) t))
 
 
 (defun liste->zahl (lst)
@@ -228,28 +213,20 @@ Beispiel: (gleichwertige-elemente '(rot blau grün) '(grün rot blau)) => "T
 MISCHEN dient dazu, eine Liste mit einer frei wählbaren Anzahl an Durchgängen zu mischen. Wird keine Anzahl an Durchgängen genannt, so wird der Vorgang 20 Mal durchgeführt.
 Beispiel: (mischen '(1 2 3 4 5)) => (5 2 1 4 3)"
   (let ((zn (random len))) ; Zufallszahl
-	(cond ((zerop durchgang)
-		   lst)
-		  ((oddp zn)
-		   (mischen (append (reverse (nthcdr zn lst))
-							(butlast lst (- len zn)))
-					(1- durchgang)))
-		  ((evenp zn)
-		   (mischen (append (nthcdr zn lst)
-							(butlast lst (- len zn)))
-					(1- durchgang)))
-		  (t
-		   (mischen (append (nthcdr zn lst)
-							(reverse (butlast lst (- len zn)))
-							(1- durchgang)))))))
+	(cond ((zerop durchgang) lst)
+		  ((oddp zn) (mischen (append (reverse (nthcdr zn lst))
+									  (butlast lst (- len zn)))
+							  (1- durchgang)))
+		  (t (mischen (append (nthcdr zn lst)
+									   (butlast lst (- len zn)))
+							   (1- durchgang))))))
 
 
-(defun münzwurf ()
+(defun münzwurf (&optional (maximum 10000001) &aux (hälfte (ash maximum -1)) (wurf (random maximum)))
   "Münzwurf bildet den Wurf einer Münze nach. Es ist möglich, daß die Münze auf der Kante stehen bleibt! Beispiel: (münzwurf) => ZAHL"
-       (let ((wurf (random 101)))
-	 (cond ((< wurf 50) 'kopf)
-	       ((> wurf 50) 'zahl)
-	       (t 'kante))))
+	(cond ((< wurf hälfte) :kopf)
+		  ((> wurf hälfte) :zahl)
+		  (t :kante)))
 
 
 (defmemo nächste-primzahl (&optional (n 0))
@@ -258,38 +235,31 @@ Beispiele:
    (nächste-primzahl 19) => 23
    (nächste-primzahl 20) => 23
    (nächste-primzahl 23) => 29"
-  (if (< n 2)
-      2
-      (loop for i upfrom (+ n  (if (evenp n) 1 2)) by 2
-         when (primzahlp i)
-         return i)))
+  (if (< n 2) 2
+      (loop for i upfrom (+ n (if (evenp n) 1 2)) by 2
+         when (primzahlp i) return i)))
 
 
 (defmemo nth-permutation (n lst)
   "Gibt die nte Permutation einer Liste zurück. Die Zählung beginnt bei NULL."
-  (if (zerop n)
-	  lst
-	  (let* ((len (length lst))
-			 (sublen (1- len))
-			 (modulus (faktor sublen)))
-		(if (> n (* len modulus))
-			(format t "Die Liste mit der Länge ~A ermöglicht keine ~A Permutationen." len n)
-			(multiple-value-bind (quotient remainder)
-				(floor n modulus)
-			  (cons (nth quotient lst)
-					(nth-permutation remainder (but-nth quotient lst))))))))
+  (cond ((zerop n) lst)
+		(t (let* ((len (length lst))
+				  (sublen (1- len))
+				  (modulus (faktor sublen)))
+			 (cond ((> n (* len modulus))
+					(error "Die Liste mit der Länge ~S ermöglicht keine ~S Permutationen." len n))
+				   (t (multiple-value-bind (quotient remainder) (floor n modulus)
+						(cons (nth quotient lst) (nth-permutation remainder (but-nth quotient lst))))))))))
 
 
 (defun nur-buchstaben (text)
   "Entfernt die Nicht-Buchstaben eines Textes."
-  (remove-if #'(lambda (x) (not (alpha-char-p x)))
-			 text))
+  (remove-if #'(lambda (x) (not (alpha-char-p x))) text))
 
 
 (defun nur-ziffern (text)
   "Entfernt die Nicht-Ziffern eines Textes."
-  (remove-if #'(lambda (x) (not (digit-char-p x)))
-			 text))
+  (remove-if #'(lambda (x) (not (digit-char-p x))) text))
 
 
 (defun phi-tabelle (n &aux (n+1 (1+ n)))
@@ -297,14 +267,13 @@ Beispiele:
   (let ((phi (make-array n+1 :initial-element 1)))
     (do ((k 2 (1+ k)))
         ((>= k n+1))
-      (if (= 1 (aref phi k))
-          (let ((m (/ (1- k) k)))
-            (do ((i k (+ k i)))
-                ((>= i n+1))
-              (setf (aref phi i) (* (aref phi i) m))))))
-    (dotimes (i n+1)
-      (setf (aref phi i) (* i (aref phi i))))
-    phi))
+      (when (= 1 (aref phi k))
+		(do* ((m (/ (1- k) k))
+			  (i k (+ k i)))
+			 ((>= i n+1))
+		  (setf (aref phi i) (* (aref phi i) m)))))
+    (dotimes (i n+1 phi)
+      (setf (aref phi i) (* i (aref phi i))))))
 
 
 (defmemo primfaktoren (n)
@@ -401,59 +370,49 @@ Beispiel: (quersumme 125) => 8"
 	 :while end))
 
 
-(defun summe-der-farey-folge (n)
+(defun summe-der-farey-folge (n &aux (n+1 (1+ n)))
   "Bildet die Summe der Farey-Folge 1 bis n"
-  (let* ((n+1 (1+ n))
-		 (phi (phi-tabelle n)))
-    (do ((i 1 (1+ i))
-         (sum 1))
-        ((>= i n+1) sum)
-      (incf sum (aref phi i)))))
+    (do ((phi (phi-tabelle n))
+		 (i 1 (1+ i))
+		 (sum 1))
+		((>= i n+1) sum)
+      (incf sum (aref phi i))))
 
 
 (defun summe-fortlaufender-primzahlen (start max)
-  (unless (primzahlp start)
-	(setf start (nächste-primzahl start)))
-  (do ((i start (nächste-primzahl i))
-	   (sum 0)
-	   (anz 0))
+  "Bildet die Summe aller Primzahlen im Bereich von START bis MAX, wobei weder START noch MAX Primzahlen sein müssen."
+  (unless (primzahlp start)	(setf start (nächste-primzahl start)))
+  (do* ((i start (nächste-primzahl i))
+	   (sum i (+ sum i))
+	   (anz 1 (1+ anz)))
 	  ((> (+ sum i) max)
-	   (list sum anz))
-	(incf sum i)
-	(incf anz)))
+	   (values sum anz))))
 
 
 (defun tausche-ziffer (n old-dig new-dig)
   "Vertauscht alle Vorkommen einer bestimmten Ziffer einer Zahl gegen eine andere aus."
-  (liste->zahl
-   (mapcar #'(lambda (x) (if (= x old-dig)
-							 new-dig
-							 x))
-	   (zahl->liste n))))
+  (liste->zahl (mapcar #'(lambda (x) (if (= x old-dig) new-dig x))
+					   (zahl->liste n))))
 
 
 (defun teiler (n &optional (ohne-selbst nil)
-						 &aux (lows nil) (highs nil) (limit (isqrt n)))
-"(teiler 28) => (1 2 4 7 14 28)
+			   &aux (lows nil) (highs nil) (limit (isqrt n)))
+  "(teiler 28) => (1 2 4 7 14 28)
  (teiler 8128) => (1 2 4 8 16 32 64 127 254 508 1016 2032 4064 8128)
  (teiler 2000 t) => (1 2 4 5 8 10 16 20 25 40 50 80 100 125 200 250 400 500 1000)"
-(let ((feld (make-array (1+ limit) :element-type 'bit :initial-element 1)))
-  (loop for i from 1 to limit
-	   do(unless (zerop (elt feld i))
-		   (multiple-value-bind (quotient remainder)
-			   (floor n i)
-			 (if (zerop remainder)
-				 (progn
-				   (unless (= i quotient)
-					 (push i lows)
-					 (push quotient highs)))
-				 (loop for j from i to limit by i do
-					  (setf (elt feld j) 0))))))
-	   (when (= n (expt limit 2))
-		 (push limit highs))
-	   (if ohne-selbst
-		   (butlast (nreconc lows highs))
-		   (nreconc lows highs))))
+  (let ((feld (make-array (1+ limit) :element-type 'bit :initial-element 1)))
+	(loop for i from 1 to limit
+	   unless (zerop (elt feld i))
+	   do(multiple-value-bind (quotient remainder) (floor n i)
+		   (cond ((zerop remainder)
+				  (unless (= i quotient)
+					(push i lows)
+					(push quotient highs)))
+				 (t (loop for j from i to limit by i
+					   do(setf (elt feld j) 0))))))
+	(when (= n (expt limit 2)) (push limit highs))
+	(cond (ohne-selbst (butlast (nreconc lows highs)))
+		  (t (nreconc lows highs)))))
 
 
 (defun temperatur (n &optional (smbl 'celsius))
@@ -462,10 +421,9 @@ Beispiel: (quersumme 125) => 8"
 				  ((celsius c) (+ n 273.15))
 				  ((fahrenheit f) (* (+ n 459.67) 5/9))
 				  ((kelvin k) n))))
-    (when kelvin
-      (values kelvin
-			  (- kelvin 273.15)
-			  (- (* kelvin 1.8) 459.67)))))
+    (when kelvin (values kelvin
+						 (- kelvin 273.15)
+						 (- (* kelvin 1.8) 459.67)))))
 
 
 (defun textausgabe (ctrl &rest args)
@@ -474,37 +432,26 @@ Beispiel: (quersumme 125) => 8"
 	(apply #'format t ctrl args)))
 
 
-(defun text-auswahl (lst ctrl &rest args &aux mehrfach)
+(defun text-auswahl (lst ctrl &rest args)
   "Erzwingt die Auswahl aus einer Liste."
-  (when (member 'alles lst)
-	(setf mehrfach 't
-		  lst (set-difference lst '(alles))))
   (do ((danach nil t)
 	   (ctrl (concatenate 'string ctrl " > ")))
 	  (nil)
-	(when danach
-	  (if mehrfach
-		  (format *query-io* "~&Bitte wählen sie, was sie benötigen, aus der Liste aus. Geben sie \"nichts\" ein, wenn sie nichts möchten oder \"alles\" wenn sie gerne alles hätten.~%")
-		  (format *query-io* "~&Bitte wählen sie, was sie benötigen, aus der Liste aus. Geben sie \"nichts\" ein, wenn sie nichts möchten.~%")))
+	(when danach (format *query-io* "~&Bitte wählen sie aus der Liste aus. Geben sie \"nichts\" ein, wenn sie nichts möchten.~%"))
 	(apply #'format *query-io* ctrl args)
 	(force-output *query-io*)
 	(let* ((antw (string-trim " " (read-line *query-io*)))
 		   (antw-lst (string-aufteilen antw))
-		   antwort)
+		   auswahl)
 	  (dolist (i antw-lst)
-		(push (read-from-string i) antwort))
-	  (unless (null antwort)
-		(cond ((not mehrfach)
-			   (if (null (rest antwort))
-				   (return-from text-auswahl (first antwort))
-				   (format *query-io* "~&Sie dürfen nur eines auswählen!~%")))
-			  ((subsetp antwort lst)
-			   (return-from text-auswahl antwort))
-			  ((eql (first antwort) 'alles)
-			   (return-from text-auswahl lst))
-			  ((eql (first antwort) 'nichts)
-			   (return-from text-auswahl 'nil))
-			  (t (format *query-io* "~&Etwas aus ihrer Eingabe ist mir unbekannt!~%")))))))
+		(push (read-from-string i) auswahl))
+	  (cond ((subsetp auswahl lst)
+			 (return-from text-auswahl auswahl))
+			((and (eql (first auswahl) 'alles) (= 1 (length auswahl)))
+			 (return-from text-auswahl lst))
+			((and (eql (first auswahl) 'nichts) (= 1 (length auswahl)))
+			 (return-from text-auswahl 'nil))
+			(t (format *query-io* "~&Etwas aus ihrer Eingabe ist mir unbekannt!~%"))))))
 
 
 (defun umwandeln (n von nach)
