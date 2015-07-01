@@ -50,13 +50,22 @@
  (* (- (* 3 n) 2) n))
 
 
+(defun addiere-ziffern (n &optional (sum 0))
+  "Nimmt eine Zahl entgegen und gibt die Summe all ihrer Ziffern zurück.
+Beispiel: (addiere-ziffern 125) => 8"
+  (if (zerop n)
+	  sum
+	  (addiere-ziffern (truncate (/ n 10)) (+ sum (rem n 10)))))
+
+
 (defun alle-permutationen (lst)
   "Alle Permutationen einer Liste erzeugen; Beispiel: (alle-permutationen (list 'a 'b 'c 'd 'e))"
-  (cond ((endp lst) nil)
-		(t (mapcan #'(lambda (x)
-					   (mapcar #'(lambda (y) (cons x y))
-							   (alle-permutationen (remove x lst :count 1))))
-				   lst))))
+  (if (endp lst) 'nil
+	  (mapcan #'(lambda (x)
+				  (mapcar #'(lambda (y)
+							  (cons x y))
+						  (alle-permutationen (remove x lst :count 1))))
+			  lst)))
 
 
 (defun alphabetischer-wert (str)
@@ -106,6 +115,30 @@ Beispiel: (collatz-sequenz 19) => (19 58 29 88 44 22 11 34 17 52 26 13 40 20 10 
 						(collatz-sequenz n lst))))))))
 
 
+(defun divisoren (n &optional (ohne-selbst nil)
+						 &aux (lows nil) (highs nil) (limit (isqrt n)))
+"(divisoren 28) => (1 2 4 7 14 28)
+ (divisoren 8128) => (1 2 4 8 16 32 64 127 254 508 1016 2032 4064 8128)
+ (divisoren 2000 t) => (1 2 4 5 8 10 16 20 25 40 50 80 100 125 200 250 400 500 1000)"
+(let ((feld (make-array (1+ limit) :element-type 'bit :initial-element 1)))
+  (loop for i from 1 to limit
+	   do(unless (zerop (elt feld i))
+		   (multiple-value-bind (quotient remainder)
+			   (floor n i)
+			 (if (zerop remainder)
+				 (progn
+				   (unless (= i quotient)
+					 (push i lows)
+					 (push quotient highs)))
+				 (loop for j from i to limit by i do
+					  (setf (elt feld j) 0))))))
+	   (when (= n (expt limit 2))
+		 (push limit highs))
+	   (if ohne-selbst
+		   (butlast (nreconc lows highs))
+		   (nreconc lows highs))))
+
+
 (defmemo dreieckszahl (n)
   "Gibt die Dreieckszahl des gewünschten Rangs aus."
   (/ (* n (1+ n)) 2))
@@ -138,13 +171,6 @@ DURCHSCHNITT ermöglicht es, den Durchschnitt einer Reihe von Zahlen zu berechne
 Beispiel: (durchschnitt 2 3 4) => 3"
   (if lst (/ (reduce #'+ lst) (length lst)) 
 	  (error "~&Sie haben keinerlei Werte zur Berechnung eines Durchschnitts übergeben.~%")))
-
-
-(defun echte-teiler (n)
-  "(echte-teiler 28) => (1 2 4 7 14)
- (echte-teiler 8128) => (1 2 4 8 16 32 64 127 254 508 1016 2032 4064)
- (echte-teiler 2000) => (1 2 4 5 8 10 16 20 25 40 50 80 100 125 200 250 400 500 1000)"
-  (teiler n t))
 
 
 (defun eingabe (&optional ctrl &rest args)
@@ -185,9 +211,6 @@ Beispiel: (faktor 20) =>  2432902008176640000"
 	   (nreverse lst))
 	(push a lst)))
 
-(defun fib2 (max)
-  (loop for i from 1 to max collect (fibonacci i)))
-
 
 (defmemo fünfeckszahl (n)
   "Gibt die Fünfeckszahl des gewünschten Rangs aus."
@@ -204,11 +227,6 @@ Beispiel: (faktor 20) =>  2432902008176640000"
 GLEICHWERTIGE-ELEMENTE überprüft, ob Liste1 und Liste2 über dieselben Elemente verfügen. Die Reihenfolge der Elemente spielt hierbei keinerlei Rolle.
 Beispiel: (gleichwertige-elemente '(rot blau grün) '(grün rot blau)) => "T
 	   (when (and (subsetp a b) (subsetp b a)) t))
-
-
-(defun liste->zahl (lst)
-  "Die übergebene Liste wird als Zahl zurückgegeben."
-  (reduce #'(lambda (x y) (+ (* 10 x) y)) lst))
 
 
 (defun mischen (lst &optional (durchgang (* 2 (length lst))) &aux (len (length lst)))
@@ -360,7 +378,7 @@ Beispiel: (quersumme 125) => 8"
 
 (defun sortiere-ziffern (n)
   "Nimmt eine Zahl entgegen und gibt sie als Liste zurück, die Ziffern aufsteigend sortiert."
-  (sort (zahl->liste n) #'<))
+  (sort (zahl->ziffern n) #'<))
 
 
 (defun string-aufteilen (str &key (trennzeichenp #'(lambda (x)
@@ -394,28 +412,8 @@ Beispiel: (quersumme 125) => 8"
 
 (defun tausche-ziffer (n old-dig new-dig)
   "Vertauscht alle Vorkommen einer bestimmten Ziffer einer Zahl gegen eine andere aus."
-  (liste->zahl (mapcar #'(lambda (x) (if (= x old-dig) new-dig x))
-					   (zahl->liste n))))
-
-
-(defun teiler (n &optional (ohne-selbst nil)
-			   &aux (lows nil) (highs nil) (limit (isqrt n)))
-  "(teiler 28) => (1 2 4 7 14 28)
- (teiler 8128) => (1 2 4 8 16 32 64 127 254 508 1016 2032 4064 8128)
- (teiler 2000 t) => (1 2 4 5 8 10 16 20 25 40 50 80 100 125 200 250 400 500 1000)"
-  (let ((feld (make-array (1+ limit) :element-type 'bit :initial-element 1)))
-	(loop for i from 1 to limit
-	   unless (zerop (elt feld i))
-	   do(multiple-value-bind (quotient remainder) (floor n i)
-		   (cond ((zerop remainder)
-				  (unless (= i quotient)
-					(push i lows)
-					(push quotient highs)))
-				 (t (loop for j from i to limit by i
-					   do(setf (elt feld j) 0))))))
-	(when (= n (expt limit 2)) (push limit highs))
-	(cond (ohne-selbst (butlast (nreconc lows highs)))
-		  (t (nreconc lows highs)))))
+  (ziffern->zahl (mapcar #'(lambda (x) (if (= x old-dig) new-dig x))
+					   (zahl->ziffern n))))
 
 
 (defun temperatur (n &optional (smbl 'celsius))
@@ -435,37 +433,27 @@ Beispiel: (quersumme 125) => 8"
 	(apply #'format t ctrl args)))
 
 
-(defun text-auswahl (lst ctrl &rest args &aux mehrfach)
+(defun text-auswahl (lst ctrl &rest args)
   "Erzwingt die Auswahl aus einer Liste."
-  (when (member 'alles lst)
-	(setf mehrfach 't
-		  lst (set-difference lst '(alles))))
   (do ((danach nil t)
 	   (ctrl (concatenate 'string ctrl " > ")))
 	  (nil)
-	(when danach
-	  (if mehrfach
-		  (format *query-io* "~&Bitte wählen sie, was sie benötigen, aus der Liste aus. Geben sie \"nichts\" ein, wenn sie nichts möchten oder \"alles\" wenn sie gerne alles hätten.~%")
-		  (format *query-io* "~&Bitte wählen sie, was sie benötigen, aus der Liste aus. Geben sie \"nichts\" ein, wenn sie nichts möchten.~%")))
+	(when danach (format *query-io* "~&Bitte wählen sie aus der Liste aus. Geben sie \"nichts\" ein, wenn sie nichts möchten.~%"))
 	(apply #'format *query-io* ctrl args)
 	(force-output *query-io*)
 	(let* ((antw (string-trim " " (read-line *query-io*)))
 		   (antw-lst (string-aufteilen antw))
-		   antwort)
+		   auswahl)
 	  (dolist (i antw-lst)
-		(push (read-from-string i) antwort))
-	  (unless (null antwort)
-		(cond ((not mehrfach)
-			   (if (null (rest antwort))
-				   (return-from text-auswahl (first antwort))
-				   (format *query-io* "~&Sie dürfen nur eines auswählen!~%")))
-			  ((subsetp antwort lst)
-			   (return-from text-auswahl antwort))
-			  ((eql (first antwort) 'alles)
-			   (return-from text-auswahl lst))
-			  ((eql (first antwort) 'nichts)
-			   (return-from text-auswahl 'nil))
-			  (t (format *query-io* "~&Etwas aus ihrer Eingabe ist mir unbekannt!~%")))))))
+		(push (read-from-string i) auswahl))
+	  (format t "Auswahl: ~S: ~S~%" auswahl (length auswahl))
+	  (cond ((subsetp auswahl lst)
+			 (return-from text-auswahl auswahl))
+			((and (eql (first auswahl) 'alles) (= 1 (length auswahl)))
+			 (return-from text-auswahl lst))
+			((and (eql (first auswahl) 'nichts) (= 1 (length auswahl)))
+			 (return-from text-auswahl 'nil))
+			(t (format *query-io* "~&Etwas aus ihrer Eingabe ist mir unbekannt!~%"))))))
 
 
 (defun umwandeln (n von nach)
@@ -555,7 +543,7 @@ Beispiel: (wurzel 81 4) => 3.0"
   (expt n (/ x)))
 
 
-(defun zahl->liste (n)
+(defun zahl->ziffern (n)
   "Die übergebene Zahl wird als Liste von Ziffern zurückgegeben."
   (map 'list #'digit-char-p (write-to-string n)))
 
@@ -565,5 +553,10 @@ Beispiel: (wurzel 81 4) => 3.0"
 	(length (nur-buchstaben text)))
 
 
+(defun ziffern->zahl (lst)
+  "Die übergebene Liste wird als Zahl zurückgegeben."
+  (reduce #'(lambda (x y) (+ (* 10 x) y)) lst))
+
+
 (defun ziffer-summe (n)
-  (apply #'+ (zahl->liste n)))
+  (apply #'+ (zahl->ziffern n)))

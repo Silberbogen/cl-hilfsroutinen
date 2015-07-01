@@ -26,7 +26,7 @@
 
 (defun abundante-zahl-p (n)
   "Eine natürliche Zahl heißt abundant (lat. abundans „überladen“), wenn ihre echte Teilersumme (die Summe aller Teiler ohne die Zahl selbst) größer ist als die Zahl selbst. Die kleinste abundante Zahl ist 12 (1+2+3+4+6 = 16 > 12). Die ersten geraden abundanten Zahlen lauten 12, 18, 20, 24, 30, 36, 40, 42, …"
-  (> (apply #'+ (echte-teiler n)) n))
+  (> (apply #'+ (divisoren n t)) n))
 
 
 (defun befreundete-zahl-p (n)
@@ -34,17 +34,16 @@
 Das kleinste befreundete Zahlenpaar wird von den Zahlen 220 und 284 gebildet. Man rechnet leicht nach, dass die beiden Zahlen der Definition genügen:
     Die Summe der echten Teiler von 220 ergibt 1 + 2 + 4 + 5 + 10 + 11 + 20 + 22 + 44 + 55 + 110 = 284 und die Summe der echten Teiler von 284 ergibt 1 + 2 + 4 + 71 + 142 = 220.
 In einem befreundeten Zahlenpaar ist stets die kleinere Zahl abundant und die größere Zahl defizient."
-  (let ((bz (apply #'+ (echte-teiler n))))
-    (if (= n (apply #'+ (echte-teiler bz)))
-        bz
-        'nil)))
+  (let ((bz (apply #'+ (divisoren n t))))
+    (when (= n (apply #'+ (divisoren bz t)))
+        bz)))
 
 
 (defun defiziente-zahl-p (n)
   "Eine natürliche Zahl heißt defizient, wenn ihre echte Teilersumme (die Summe aller Teiler ohne die Zahl selbst) kleiner ist als die Zahl selbst. Ist die Teilersumme dagegen gleich der Zahl, spricht man von einer vollkommenen Zahl, ist sie größer, so spricht man von einer abundanten Zahl.
 Beispiele: Die Zahl 10 ist defizient, denn 1+2+5 = 8 < 10.
 Ebenso sind alle Primzahlen defizient, da ihre echte Teilersumme immer Eins ist."
-  (< (apply #'+ (echte-teiler n)) n))
+  (< (apply #'+ (divisoren n t)) n))
 
 
 (defun dreieckszahlp (n)
@@ -64,8 +63,8 @@ Beispiele: (echte-teilmenge-p '(rot grün) '(grün blau rot gelb)) => T
 
 (defun fünfeckszahlp (n)
   "Prüft ob eine Zahl eine Fünfeckszahl ist."
-  (let ((p (/ (1+ (sqrt (1+ (* 24 n)))) 6)))
-    (= p (truncate p))))
+  (let ((wert (/ (1+ (sqrt (1+ (* 24 n)))) 6)))
+    (= wert (truncate wert))))
 
 
 (defun j-oder-n-p (&optional ctrl &rest args)
@@ -102,20 +101,19 @@ Beispiele: (echte-teilmenge-p '(rot grün) '(grün blau rot gelb)) => T
 
 (defun kreisförmige-primzahl-p (n)
   "Die Ziffern können rotiert werden, vorne raus, hinten rein - und es ergibt sich dennoch immer eine Primzahl."
-  (let ((len (length (zahl->liste n))))
+  (let ((len (length (zahl->ziffern n))))
 	(if (= len 1)
 		(when (primzahlp n)
 		  t)
 		(let ((temp-n n)
-			  (temp-lst (zahl->liste n)))
+			  (temp-lst (zahl->ziffern n)))
 		  (do ((i 1 (1+ i)))
 			  ((= i len)
 			   t)
 			(setf temp-lst (append (cdr temp-lst) (cons (car temp-lst) '())))
-			(setf temp-n (liste->zahl temp-lst))
+			(setf temp-n (ziffern->zahl temp-lst))
 			(unless (primzahlp temp-n)
 			  (return nil)))))))
-
 
 
 
@@ -134,7 +132,7 @@ Beispiele
         ((zerop versuche)
          (return-from lychrel-zahl-p 't))
         (t
-         (lychrel-zahl-p (+ n (liste->zahl (reverse (zahl->liste n))))
+         (lychrel-zahl-p (+ n (ziffern->zahl (reverse (zahl->ziffern n))))
                          (1- versuche)))))
 
 
@@ -187,18 +185,17 @@ Beispiele:
 
 (defun trunkierbare-primzahl-p (n)
   "Die Primzahl bleibt eine Primzahl, selbst wenn die Ziffern von vorne oder von hinten abgetrennt werden."
-  (if (< n 10)
-	  nil
-	  (do ((i 1 (1+ i))
-		   (len (length (zahl->liste n))))
-		  ((= i len)
-		   t)
-		(unless (and (primzahlp (truncate (/ n (expt 10 i))))
-					 (primzahlp (rem n (expt 10 i))))
-		  (return nil)))))
+  (when (> n 9)
+	(do ((i 1 (1+ i))
+		 (len (length (zahl->ziffern n))))
+		((= i len)
+		 t)
+	  (unless (and (primzahlp (truncate (/ n (expt 10 i))))
+				   (primzahlp (rem n (expt 10 i))))
+		(return nil)))))
 
 
 (defun vollkommene-zahl-p (n)
   "Eine natürliche Zahl n wird vollkommene Zahl (auch perfekte Zahl) genannt, wenn sie gleich der Summe σ*(n) aller ihrer (positiven) Teiler außer sich selbst ist. Eine äquivalente Definition lautet: eine vollkommene Zahl n ist eine Zahl, die halb so groß ist wie die Summe aller ihrer positiven Teiler (sie selbst eingeschlossen), d. h. σ(n) = 2n. Die kleinsten drei vollkommenen Zahlen sind 6, 28 und 496. Alle bekannten vollkommenen Zahlen sind gerade und von Mersenne-Primzahlen abgeleitet."
-  (= n (apply #'+ (echte-teiler n))))
+  (= n (apply #'+ (divisoren n t))))
 

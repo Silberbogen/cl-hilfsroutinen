@@ -60,16 +60,17 @@
    ;; FUNCTIONS
    #:2d-array->list
    #:achteckszahl
+   #:addiere-ziffern
    #:alle-permutationen
    #:alphabetischer-wert
    #:arabisch->römisch
    #:but-nth
    #:collatz
    #:collatz-sequenz
+   #:divisoren
    #:dreieckszahl
    #:dreisatz
    #:durchschnitt
-   #:echte-teiler
    #:eingabe
    #:faktor
    #:fibonacci
@@ -77,7 +78,6 @@
    #:fünfeckszahl
    #:fünfeckszahl-folge
    #:gleichwertige-elemente
-   #:liste->zahl
    #:mischen
    #:münzwurf
    #:nächste-primzahl
@@ -99,7 +99,6 @@
    #:summe-der-farey-folge
    #:summe-fortlaufender-primzahlen
    #:tausche-ziffer
-   #:teiler
    #:temperatur
    #:textausgabe
    #:text-auswahl
@@ -107,9 +106,10 @@
    #:wochentag
    #:würfelwurf
    #:wurzel
-   #:zahl->liste
+   #:zahl->ziffern
    #:zähle-buchstaben
-   #:ziffer-summe))
+   #:ziffer-summe
+   #:ziffern->zahl))
 
 
 
