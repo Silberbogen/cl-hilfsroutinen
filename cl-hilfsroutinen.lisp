@@ -30,7 +30,7 @@
 
 
 (defvar *collatz-hash-table* (make-hash-table)
-  "Enthält alle bereits berechneten Collatz-Zahlen.")
+  "Dient der Funktion COLLATZ-SEQUENZ zur Speicherung aller bereits berechneten Collatz-Zahlen.")
 
 
 ;;; ##############
@@ -52,13 +52,11 @@
   (* (- (* 3 n) 2) n))
 
 
-(defun addiere-ziffern (n &optional (sum 0))
-  "Nimmt eine Zahl entgegen und gibt die Summe all ihrer Ziffern zurück.
+(defun addiere-ziffern (n)
+  "Nimmt eine Integerzahl entgegen und gibt die Summe all ihrer Ziffern zurück.
 Beispiel: (addiere-ziffern 125) => 8"
   (check-type n integer)
-  (if (zerop n)
-	  sum
-	  (addiere-ziffern (truncate (/ n 10)) (+ sum (rem n 10)))))
+  (apply #'+ (zahl->ziffern n)))
 
 
 (defun alle-permutationen (lst)
@@ -619,7 +617,3 @@ Beispiel: (wurzel 81 4) => 3.0"
   (reduce #'(lambda (x y) (+ (* 10 x) y)) lst))
 
 
-(defun ziffer-summe (n)
-  "Addiert die Ziffern einer Integerzahl."
-  (check-type n integer)
-  (apply #'+ (zahl->ziffern n)))

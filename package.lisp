@@ -108,8 +108,7 @@
    #:wurzel
    #:zahl->ziffern
    #:zähle-buchstaben
-   #:ziffer-summe
-   #:ziffern->zahl))
+   #:ziffer-summe))
 
 
 
