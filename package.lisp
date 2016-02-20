@@ -100,8 +100,9 @@
    #:summe-fortlaufender-primzahlen
    #:tausche-ziffer
    #:temperatur
-   #:textausgabe
+   #:text-ausgabe
    #:text-auswahl
+   #:text-eingabe
    #:umwandeln
    #:wochentag
    #:würfelwurf

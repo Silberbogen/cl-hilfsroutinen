@@ -477,14 +477,14 @@ Beispiel: (quersumme 125) => 8"
 						 (- (* kelvin 1.8) 459.67)))))
 
 
-(defun textausgabe (ctrl &rest args)
-  "Eine vereinfachte Ausgabe, die die Ausgabe stets am Anfang der Zeile beginnt und nach der Ausgabe die Zeile abschließt."
+(defun text-ausgabe (ctrl &rest args)
+  "TEXT-AUSGABE gibt die Ausgabe des Strings CTRL mit den eingefügten Argumenten ARGS stets am Anfang einer neuen Zeile und beendet die Ausgabe mit der Positionierung des Cursors in der nachfolgenden Zeile."
   (let ((ctrl (concatenate 'string "~&" ctrl "~%")))
 	(apply #'format t ctrl args)))
 
 
 (defun text-auswahl (lst ctrl &rest args)
-  "Erzwingt die Auswahl aus einer Liste."
+  "TEXT-AUSWAHL gibt den String CTRL mit den eingefügen Argumenten ARGS aus und erzwingt die Eingabe einer Auswahl aus der Liste LST."
   (do ((danach nil t)
 	   (ctrl (concatenate 'string ctrl " > ")))
 	  (nil)
@@ -504,6 +504,14 @@ Beispiel: (quersumme 125) => 8"
 			((and (eql (first auswahl) 'nichts) (= 1 (length auswahl)))
 			 (return-from text-auswahl 'nil))
 			(t (format *query-io* "~&Etwas aus ihrer Eingabe ist mir unbekannt!~%"))))))
+
+
+(defun text-eingabe (ctrl &rest args)
+  "TEXT-EINGABE gibt String CTRL mit den eingesetzten Argumenten ARGS aus, und ermöglicht die Eingabe eines Strings der zurückgeliefert wird."
+  (let ((ctrl (concatenate 'string ctrl " > ")))
+	(apply #'format *query-io* ctrl args)
+	(force-output *query-io*)
+	(string-trim " " (read-line *query-io*))))
 
 
 (defun umwandeln (n von nach)
