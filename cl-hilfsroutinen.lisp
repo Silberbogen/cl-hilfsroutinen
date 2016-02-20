@@ -3,9 +3,9 @@
 ;;;; Dateiname: cl-hilfsroutinen.lisp
 ;;;; Beschreibung: Routinen, die mich bei diversen Aufgaben unterstützen
 ;;;; ------------------------------------------------------------------------
-;;;; Author: Sascha K. Biermanns, <skkd PUNKT h4k1n9 AT yahoo PUNKT de>
+;;;; Author: Sascha K. Biermanns, <skbierm AT gmail PUNKT com>
 ;;;; Lizenz: GPL v3
-;;;; Copyright (C) 2011-2015 Sascha K. Biermanns
+;;;; Copyright (C) 2011-2016 Sascha K. Biermanns
 ;;;; This program is free software; you can redistribute it and/or modify it
 ;;;; under the terms of the GNU General Public License as published by the
 ;;;; Free Software Foundation; either version 3 of the License, or (at your
@@ -575,6 +575,9 @@ Beispiel: (umwandeln 10 'cm 'mm) => 100 MM"
 
 (defun wochentag (tag monat jahr)
   "Gibt den Tag der Woche zurück, als Zahl und als Symbol"
+  (check-type tag integer)
+  (check-type monat integer)
+  (check-type jahr integer)
   (let ((tag (seventh (multiple-value-list
 					   (decode-universal-time
 						(encode-universal-time 0 0 0 tag monat jahr)))))

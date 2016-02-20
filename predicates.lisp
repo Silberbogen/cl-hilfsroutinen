@@ -3,9 +3,9 @@
 ;;;; Dateiname: predicates.lisp
 ;;;; Beschreibung: Routinen, die mich bei diversen Aufgaben unterstützen
 ;;;; ------------------------------------------------------------------------
-;;;; Author: Sascha K. Biermanns, <skkd PUNKT h4k1n9 AT yahoo PUNKT de>
+;;;; Author: Sascha K. Biermanns, <skbierm AT gmail PUNKT com>
 ;;;; Lizenz: GPL v3
-;;;; Copyright (C) 2011-2015 Sascha K. Biermanns
+;;;; Copyright (C) 2011-2016 Sascha K. Biermanns
 ;;;; This program is free software; you can redistribute it and/or modify it
 ;;;; under the terms of the GNU General Public License as published by the
 ;;;; Free Software Foundation; either version 3 of the License, or (at your
@@ -35,16 +35,6 @@
 Das kleinste befreundete Zahlenpaar wird von den Zahlen 220 und 284 gebildet. Man rechnet leicht nach, dass die beiden Zahlen der Definition genügen:
     Die Summe der echten Teiler von 220 ergibt 1 + 2 + 4 + 5 + 10 + 11 + 20 + 22 + 44 + 55 + 110 = 284 und die Summe der echten Teiler von 284 ergibt 1 + 2 + 4 + 71 + 142 = 220.
 In einem befreundeten Zahlenpaar ist stets die kleinere Zahl abundant und die größere Zahl defizient."
-  (check-type n integer)
-  (let ((bz (apply #'+ (divisoren n t))))
-    (when (= n (apply #'+ (divisoren bz t)))
-        bz)))
-
-
-(defun defiziente-zahl-p (n)
-  "Eine natürliche Zahl heißt defizient, wenn ihre echte Teilersumme (die Summe aller Teiler ohne die Zahl selbst) kleiner ist als die Zahl selbst. Ist die Teilersumme dagegen gleich der Zahl, spricht man von einer vollkommenen Zahl, ist sie größer, so spricht man von einer abundanten Zahl.
-Beispiele: Die Zahl 10 ist defizient, denn 1+2+5 = 8 < 10.
-Ebenso sind alle Primzahlen defizient, da ihre echte Teilersumme immer Eins ist."
   (check-type n integer)
   (< (apply #'+ (divisoren n t)) n))
 
@@ -193,7 +183,7 @@ Beispiele:
 
 
 (defun trunkierbare-primzahl-p (n)
-  "Die Primzahl bleibt eine Primzahl, selbst wenn die Ziffern von vorne oder von hinten abgetrennt werden."
+  "Die Primzahl N bleibt eine Primzahl, selbst wenn die Ziffern von vorne oder von hinten abgetrennt werden."
   (check-type n integer)
   (when (> n 9)
 	(do ((i 1 (1+ i))

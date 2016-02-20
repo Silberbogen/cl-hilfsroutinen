@@ -2,9 +2,9 @@
 ;;;; -*- coding: utf-8 -*-
 ;;;; Dateiname: packages.lisp
 ;;;; ------------------------------------------------------------------------
-;;;; Author: Sascha K. Biermanns, <skkd PUNKT h4k1n9 AT yahoo PUNKT de>
+;;;; Author: Sascha K. Biermanns, <skbierm AT gmail PUNKT com>
 ;;;; Lizenz: GPL v3
-;;;; Copyright (C) 2011-2015 Sascha K. Biermanns
+;;;; Copyright (C) 2011-2016 Sascha K. Biermanns
 ;;;; This program is free software; you can redistribute it and/or modify it
 ;;;; under the terms of the GNU General Public License as published by the
 ;;;; Free Software Foundation; either version 3 of the License, or (at your
@@ -108,7 +108,15 @@
    #:wurzel
    #:zahl->ziffern
    #:zähle-buchstaben
-   #:ziffer-summe))
+   #:ziffer-summe
+   ;; SYMBOLS
+   #:montag
+   #:dienstag
+   #:mittwoch
+   #:donnerstag
+   #:freitag
+   #:samstag
+   #:sonntag))
 
 
 
