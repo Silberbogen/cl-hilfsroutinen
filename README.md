@@ -82,8 +82,8 @@ Bearbeitung von Aufgaben des Projects Euler.
 * **ziffer-summe**
 
 
-Um einen Gefühl für die Geschwindigkeit zu erhalten:
-----------------------------------------------------
+Um ein Gefühl für die Geschwindigkeit zu erhalten:
+--------------------------------------------------
 Für die Berechnung der Bildschirmfotos wurden z.B. eine Liste aller Primzahlen bis 16.000.000 erstellt, wofür ein 1GHz Rechner gerade einmal 0.781 Sekunden benötigte.
 Weiterhin sieht man diverse andere Berechnungsroutinen, so auch eine Auflistung der ersten 136 Fibonacci-Zahlen (weil sie so schön auf ein Bildschirmfoto passten). Die Berechnung erfolgte in Bruchteilen einer Sekunde, so das der Timer auf 0,000 Sekunden verblieben ist. Die Berechnung der ersten 10.000 Zahlen der Fibonacci-Folge benötigten immer noch nur den Bruchteil einer Sekunde.
 Wem das zu langsam ist: Es geht vermutlich noch viel, viel schneller, wenn man unbedingt compilerspezifisch optimieren möchte, oder wenn man Sicherheit und Debugmöglichkeit verbannt, aber das war und ist nicht mein Ansinnen. Meine Routinen habe ich nicht bestem Wissen und Gewissen geschrieben, sie sollten stets noch einen Hauch von _Eleganz_ darstellen, außerdem hasse ich es, mich ewig zu wiederholen, ich spiele gleichermassen gerne mit do, dolist, dotimes und loop. Außerdem sollten die Routinen _universell mit jeder vollständigen Implementation von Common Lisp lauffähig_ sein.
