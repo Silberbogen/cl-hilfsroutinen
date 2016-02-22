@@ -48,14 +48,14 @@
 
 (defmemo achteckszahl (n)
   "Gibt die Achteckszahl des gewünschten Rangs aus."
-  (check-type n integer)
+  (check-type n (integer 0 *))
   (* (- (* 3 n) 2) n))
 
 
 (defun addiere-ziffern (n)
   "Nimmt eine Integerzahl entgegen und gibt die Summe all ihrer Ziffern zurück.
 Beispiel: (addiere-ziffern 125) => 8"
-  (check-type n integer)
+  (check-type n (integer 0 *))
   (apply #'+ (zahl->ziffern n)))
 
 
@@ -80,14 +80,14 @@ Beispiel: (alphabetischer-wert \"abc\") => 102"
 (defun arabisch->römisch (n)
   "Übersetzt eine Zahl mit arabischen Ziffern in einen String mit römische Ziffern um.
 Beispiel: (arabisch->römisch 1968) => \"MCMLXVIII\""
-  (check-type n integer)
+  (check-type n (integer 1 *))
   (format nil "~@R" n))
 
 
 (defun but-nth (n lst)
   "Gibt die Liste, ohne das nte Element zurück. Die Zählung der Liste beginnt bei NULL.
 Beispiel: (but-nth 4 '(1 2 3 4 5 6 7 8 9)) => (1 2 3 4 6 7 8 9)"
-  (check-type n integer)
+  (check-type n (integer 0 *))
   (check-type lst list)
   (if (zerop n)
 	  (rest lst)
@@ -97,7 +97,7 @@ Beispiel: (but-nth 4 '(1 2 3 4 5 6 7 8 9)) => (1 2 3 4 6 7 8 9)"
 
 (defun collatz (n &optional (durchgang 1))
   "Gibt die Länge der Sequenz der Collatz-Folge beginnend mit n zurück."
-  (check-type n integer)
+  (check-type n (integer 1 *))
   (cond ((= n 1) (return-from collatz durchgang))
 		((evenp n) (collatz (/ n 2) (1+ durchgang)))
 		(t (collatz (1+ (* 3 n)) (1+ durchgang)))))
@@ -106,7 +106,8 @@ Beispiel: (but-nth 4 '(1 2 3 4 5 6 7 8 9)) => (1 2 3 4 6 7 8 9)"
 (defun collatz-sequenz (n &optional (lst nil))
   "Gibt die Collatz-Sequenz einer gegebenen Zahl n als Liste zurück.
 Beispiel: (collatz-sequenz 19) => (19 58 29 88 44 22 11 34 17 52 26 13 40 20 10 5 16 8 4 2 1)"
-  (check-type n integer)
+  (check-type n (integer 1 *))
+  (check-type lst list)
   (labels ((zurück (lst1 &optional lst2)
 			 (maplist #'(lambda (x)
 						  (setf (gethash (first x) *collatz-hash-table*) (append x lst2)))
@@ -128,7 +129,7 @@ Beispiel: (collatz-sequenz 19) => (19 58 29 88 44 22 11 34 17 52 26 13 40 20 10 
   "(divisoren 28) => (1 2 4 7 14 28)
  (divisoren 8128) => (1 2 4 8 16 32 64 127 254 508 1016 2032 4064 8128)
  (divisoren 2000 t) => (1 2 4 5 8 10 16 20 25 40 50 80 100 125 200 250 400 500 1000)"
-  (check-type n integer)
+  (check-type n (integer 1 *))
   (let ((feld (make-array (1+ limit) :element-type 'bit :initial-element 1)))
 	(loop for i from 1 to limit
 	   do(unless (zerop (elt feld i))
@@ -150,7 +151,7 @@ Beispiel: (collatz-sequenz 19) => (19 58 29 88 44 22 11 34 17 52 26 13 40 20 10 
 
 (defmemo dreieckszahl (n)
   "Gibt die Dreieckszahl des gewünschten Rangs aus."
-  (check-type n integer)
+  (check-type n (integer 0 *))
   (/ (* n (1+ n)) 2))
 
 
@@ -189,6 +190,7 @@ Beispiel: (durchschnitt 2 3 4) => 3"
 
 (defun eingabe (&optional ctrl &rest args)
   "Erzwingt eine Eingabe."
+  (check-type ctrl string)
   (do ((danach nil t)
 	   (ctrl (concatenate 'string "~&" ctrl " > "))
 	   (antwort ""))
@@ -205,13 +207,13 @@ Beispiel: (durchschnitt 2 3 4) => 3"
 FAKTOR berechnet den Faktor einer Zahl.
 Ein Faktor von 6 wird zum Beispiel errechnet, indem man die Werte von 1 bis 6 miteinander malnimmt, also 1 * 2 * 3 * 4 * 5 * 6. Faktoren haben die unangenehme Eigenschaft, das sie sehr schnell sehr groß werden können.
 Beispiel: (faktor 20) =>  2432902008176640000"
-  (check-type n integer)
+  (check-type n (integer 1 *))
   (reduce #'* (loop for i from 1 to n collect i)))
 
 
 (defmemo fibonacci (n)
   "Bildet die Fibonaccizahl zur n. Zahl; Beispiel: (fibonacci 20) => 6765"
-  (check-type n integer)
+  (check-type n (integer 1 *))
   (cond ((zerop n) 0)
         ((= n 1) 1)
         (t (+ (fibonacci (1- n)) (fibonacci (- n 2))))))
@@ -219,7 +221,7 @@ Beispiel: (faktor 20) =>  2432902008176640000"
 
 (defun fibonacci-folge (n)
   "Erstellt eine Liste aller Fibonacci-Zahlen von der ersten bis zur MAXten."
-  (check-type n integer)
+  (check-type n (integer 1 *))
   (do ((i 1 (1+ i))
 	   (a 1 a-next)
 	   (a-next 1 (+ a a-next))
@@ -231,13 +233,13 @@ Beispiel: (faktor 20) =>  2432902008176640000"
 
 (defmemo fünfeckszahl (n)
   "Gibt die Fünfeckszahl des gewünschten Rangs aus."
-  (check-type n integer)
+  (check-type n (integer 0 *))
   (/ (* n (1- (* 3 n))) 2))
 
 
 (defun fünfeckszahl-folge (n)
   "Erstellt eine Liste aller Fünfecks-Zahlen von der ersten bis zur MAXten."
-  (check-type n integer)
+  (check-type n (integer 1 *))
   (loop for i from 1 to n collect (fünfeckszahl i)))
 
 
@@ -267,7 +269,7 @@ Beispiel: (mischen '(1 2 3 4 5)) => (5 2 1 4 3)"
 
 (defun münzwurf (&optional (n 10000001) &aux (hälfte (ash n -1)) (wurf (random n)))
   "Münzwurf bildet den Wurf einer Münze nach. Es ist möglich, daß die Münze auf der Kante stehen bleibt! Beispiel: (münzwurf) => ZAHL"
-  (check-type n integer)
+  (check-type n (integer 1 *))
   (cond ((< wurf hälfte) :kopf)
 		((> wurf hälfte) :zahl)
 		(t :kante)))
@@ -279,7 +281,7 @@ Beispiele:
    (nächste-primzahl 19) => 23
    (nächste-primzahl 20) => 23
    (nächste-primzahl 23) => 29"
-  (check-type n integer)
+  (check-type n (integer 0 *))
   (if (< n 2) 2
       (loop for i upfrom (+ n (if (evenp n) 1 2)) by 2
          when (primzahlp i) return i)))
@@ -287,7 +289,7 @@ Beispiele:
 
 (defmemo nth-permutation (n lst)
   "Gibt die nte Permutation einer Liste zurück. Die Zählung beginnt bei NULL."
-  (check-type n integer)
+  (check-type n (integer 0 *))
   (check-type lst list)
   (cond ((zerop n) lst)
 		(t (let* ((len (length lst))
@@ -313,7 +315,7 @@ Beispiele:
 
 (defun phi-tabelle (n &aux (n+1 (1+ n)))
   "Erstellt eine Tabelle der phi-Werte bis n"
-  (check-type n integer)
+  (check-type n (integer 1 *))
   (let ((phi (make-array n+1 :initial-element 1)))
     (do ((k 2 (1+ k)))
         ((>= k n+1))
@@ -330,14 +332,13 @@ Beispiele:
   "(primfaktoren n)
 Gibt eine Liste der Primfaktoren der Zahl N zurück.
 Beispiel: (primfaktoren 1000) => (2 2 2 5 5 5)"
-  (check-type n integer)
-  (when (> n 1)
-	(do ((i 2 (nächste-primzahl i))
-		 (limit (1+ (isqrt n))))
-		((> i limit)
-		 (list n))
-	  (when (zerop (mod n i))
-		(return (cons i (primfaktoren (/ n i))))))))
+  (check-type n (integer 2 *))
+  (do ((i 2 (nächste-primzahl i))
+	   (limit (1+ (isqrt n))))
+	  ((> i limit)
+	   (list n))
+	(when (zerop (mod n i))
+	  (return (cons i (primfaktoren (/ n i)))))))
 
 
 (defmemo primzahl (n)
@@ -346,7 +347,7 @@ Beispiele:
    (primzahl 1) => 2
    (primzahl 1000) => 7919
    (primzahl 100000) => 1299709"
-  (check-type n integer)
+  (check-type n (integer 1 *))
   (labels ((nth-primzahl (x &optional (rang 1) (last-x 0))
 			 (cond ((< x 1)
 					nil)
@@ -394,12 +395,12 @@ Beispiel: (quersumme 125) => 8"
 
 (defmemo sechseckszahl (n)
   "Gibt die Sechseckszahl des gewünschten Rangs aus."
-  (check-type n integer)
+  (check-type n (integer 0 *))
   (* n (1- (* 2 n))))
 
 
 (defun sieb-des-eratosthenes (n)
-  (check-type n integer)
+  (check-type n (integer 2 *))
   (let ((composites (make-array (1+ n) :element-type 'bit
 								:initial-element 0)))
     (loop for candidate from 2 to n
@@ -411,13 +412,13 @@ Beispiel: (quersumme 125) => 8"
 
 (defmemo siebeneckszahl (n)
   "Gibt die Siebeneckszahl des gewünschten Rangs aus."
-  (check-type n integer)
+  (check-type n (integer 0 *))
   (/ (* n(- (* 5 n) 3)) 2))
 
 
 (defun sortiere-ziffern (n)
   "Nimmt eine Zahl entgegen und gibt sie als Liste zurück, die Ziffern aufsteigend sortiert."
-  (check-type n integer)
+  (check-type n (integer 0 *))
   (sort (zahl->ziffern n) #'<))
 
 
@@ -434,7 +435,7 @@ Beispiel: (quersumme 125) => 8"
 
 (defun summe-der-farey-folge (n &aux (n+1 (1+ n)))
   "Bildet die Summe der Farey-Folge 1 bis n"
-  (check-type n integer)
+  (check-type n (integer 1 *))
   (do ((phi (phi-tabelle n))
 	   (i 1 (1+ i))
 	   (sum 1))
@@ -456,7 +457,7 @@ Beispiel: (quersumme 125) => 8"
 
 (defun tausche-ziffer (n old-dig new-dig)
   "Vertauscht alle Vorkommen einer bestimmten Ziffer einer Zahl gegen eine andere aus."
-  (check-type n integer)
+  (check-type n (integer 0 *))
   (check-type old-dig integer)
   (check-type new-dig integer)
   (assert (<= 0 old-dig 9))
@@ -467,7 +468,7 @@ Beispiel: (quersumme 125) => 8"
 
 (defun temperatur (n &optional (smbl 'celsius))
   "TEMPERATUR wandelt den angegebenen Temperaturwert in eine Liste der Werte aller drei Maßsysteme um."
-  (check-type n integer)
+  (check-type n number)
   (let ((kelvin (case smbl
 				  ((celsius c) (+ n 273.15))
 				  ((fahrenheit f) (* (+ n 459.67) 5/9))
@@ -479,12 +480,15 @@ Beispiel: (quersumme 125) => 8"
 
 (defun text-ausgabe (ctrl &rest args)
   "TEXT-AUSGABE gibt die Ausgabe des Strings CTRL mit den eingefügten Argumenten ARGS stets am Anfang einer neuen Zeile und beendet die Ausgabe mit der Positionierung des Cursors in der nachfolgenden Zeile."
+  (check-type ctrl string)
   (let ((ctrl (concatenate 'string "~&" ctrl "~%")))
 	(apply #'format t ctrl args)))
 
 
 (defun text-auswahl (lst ctrl &rest args)
   "TEXT-AUSWAHL gibt den String CTRL mit den eingefügen Argumenten ARGS aus und erzwingt die Eingabe einer Auswahl aus der Liste LST."
+  (check-type lst list)
+  (check-type ctrl string)
   (do ((danach nil t)
 	   (ctrl (concatenate 'string ctrl " > ")))
 	  (nil)
@@ -508,6 +512,7 @@ Beispiel: (quersumme 125) => 8"
 
 (defun text-eingabe (ctrl &rest args)
   "TEXT-EINGABE gibt String CTRL mit den eingesetzten Argumenten ARGS aus, und ermöglicht die Eingabe eines Strings der zurückgeliefert wird."
+  (check-type ctrl string)
   (let ((ctrl (concatenate 'string ctrl " > ")))
 	(apply #'format *query-io* ctrl args)
 	(force-output *query-io*)
@@ -583,8 +588,8 @@ Beispiel: (umwandeln 10 'cm 'mm) => 100 MM"
 
 (defun wochentag (tag monat jahr)
   "Gibt den Tag der Woche zurück, als Zahl und als Symbol"
-  (check-type tag integer)
-  (check-type monat integer)
+  (check-type tag (integer 1 31))
+  (check-type monat (integer 1 12))
   (check-type jahr integer)
   (let ((tag (seventh (multiple-value-list
 					   (decode-universal-time
@@ -597,7 +602,7 @@ Beispiel: (umwandeln 10 'cm 'mm) => 100 MM"
   "(würfelwurf &optional seiten)
 WÜRFELWURF bildet den Wurf mit einem in Spieleboxen üblichen, voreingestellt 6-seitigen, Würfel nach. Durch einen Aufruf mit einer anderen Seitenzahl wird ein entsprechender über Seiten verfügender Würfel angenommen.
 Beispiel: (würfelwurf) => 4"
-  (check-type n integer)
+  (check-type n (integer 1 *))
   (1+ (random n)))
 
 
@@ -612,7 +617,7 @@ Beispiel: (wurzel 81 4) => 3.0"
 
 (defun zahl->ziffern (n)
   "Die übergebene Zahl wird als Liste von Ziffern zurückgegeben."
-  (check-type n integer)
+  (check-type n (integer 0 *))
   (map 'list #'digit-char-p (write-to-string n)))
 
 
