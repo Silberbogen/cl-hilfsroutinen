@@ -207,7 +207,7 @@ Beispiel: (durchschnitt 2 3 4) => 3"
 FAKTOR berechnet den Faktor einer Zahl.
 Ein Faktor von 6 wird zum Beispiel errechnet, indem man die Werte von 1 bis 6 miteinander malnimmt, also 1 * 2 * 3 * 4 * 5 * 6. Faktoren haben die unangenehme Eigenschaft, das sie sehr schnell sehr groß werden können.
 Beispiel: (faktor 20) =>  2432902008176640000"
-  (check-type n (integer 1 *))
+  (check-type n (integer 0 *))
   (reduce #'* (loop for i from 1 to n collect i)))
 
 
