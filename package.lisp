@@ -109,7 +109,7 @@
    #:wurzel
    #:zahl->ziffern
    #:zähle-buchstaben
-   #:ziffer-summe
+   #:ziffern->zahl
    ;; SYMBOLS
    #:montag
    #:dienstag
