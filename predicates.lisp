@@ -36,7 +36,9 @@ Das kleinste befreundete Zahlenpaar wird von den Zahlen 220 und 284 gebildet. Ma
     Die Summe der echten Teiler von 220 ergibt 1 + 2 + 4 + 5 + 10 + 11 + 20 + 22 + 44 + 55 + 110 = 284 und die Summe der echten Teiler von 284 ergibt 1 + 2 + 4 + 71 + 142 = 220.
 In einem befreundeten Zahlenpaar ist stets die kleinere Zahl abundant und die größere Zahl defizient."
   (check-type n (integer 1 *))
-  (= (apply #'+ (divisoren (apply #'+ (divisoren n t)) t) ) n))
+  (let ((bz (apply #'+ (divisoren n t))))
+	(when (and bz (equal n (apply #'+ (divisoren bz t))))
+	  bz)))
 
 
 (defun dreieckszahlp (n)

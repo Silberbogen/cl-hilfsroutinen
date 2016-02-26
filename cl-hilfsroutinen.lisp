@@ -129,7 +129,7 @@ Beispiel: (collatz-sequenz 19) => (19 58 29 88 44 22 11 34 17 52 26 13 40 20 10 
   "(divisoren 28) => (1 2 4 7 14 28)
  (divisoren 8128) => (1 2 4 8 16 32 64 127 254 508 1016 2032 4064 8128)
  (divisoren 2000 t) => (1 2 4 5 8 10 16 20 25 40 50 80 100 125 200 250 400 500 1000)"
-  (check-type n (integer 1 *))
+  (check-type n (integer 0 *))
   (let ((feld (make-array (1+ limit) :element-type 'bit :initial-element 1)))
 	(loop for i from 1 to limit
 	   do(unless (zerop (elt feld i))
