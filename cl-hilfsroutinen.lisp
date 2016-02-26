@@ -213,7 +213,7 @@ Beispiel: (faktor 20) =>  2432902008176640000"
 
 (defmemo fibonacci (n)
   "Bildet die Fibonaccizahl zur n. Zahl; Beispiel: (fibonacci 20) => 6765"
-  (check-type n (integer 1 *))
+  (check-type n (integer 0 *))
   (cond ((zerop n) 0)
         ((= n 1) 1)
         (t (+ (fibonacci (1- n)) (fibonacci (- n 2))))))
