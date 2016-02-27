@@ -332,7 +332,7 @@ Beispiele:
   "(primfaktoren n)
 Gibt eine Liste der Primfaktoren der Zahl N zurück.
 Beispiel: (primfaktoren 1000) => (2 2 2 5 5 5)"
-  (check-type n (integer 2 *))
+  (check-type n (integer 0 *))
   (do ((i 2 (nächste-primzahl i))
 	   (limit (1+ (isqrt n))))
 	  ((> i limit)
@@ -348,14 +348,7 @@ Beispiele:
    (primzahl 1000) => 7919
    (primzahl 100000) => 1299709"
   (check-type n (integer 1 *))
-  (labels ((nth-primzahl (x &optional (rang 1) (last-x 0))
-			 (cond ((< x 1)
-					nil)
-				   ((= x rang)
-					(nächste-primzahl last-x))
-				   (t
-					(nth-primzahl x (1+ rang) (nächste-primzahl last-x))))))
-	(nth-primzahl n)))
+  (nth (1- n) (sieb-des-eratosthenes (* n 18))))
 
 
 (defun prozent (x n)
@@ -401,7 +394,7 @@ Beispiel: (quersumme 125) => 8"
 
 (defun sieb-des-eratosthenes (n)
   (check-type n (integer 2 *))
-  (let ((composites (make-array (1+ n) :element-type 'bit
+  (let ((composites (make-array (+ n 1) :element-type 'bit
 								:initial-element 0)))
     (loop for candidate from 2 to n
 	   when (zerop (bit composites candidate))
