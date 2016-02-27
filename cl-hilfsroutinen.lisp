@@ -341,14 +341,18 @@ Beispiel: (primfaktoren 1000) => (2 2 2 5 5 5)"
 	  (return (cons i (primfaktoren (/ n i)))))))
 
 
-(defmemo primzahl (n)
+(defmemo primzahl (n &optional (size 18) &aux (primzahlen (sieb-des-eratosthenes (* n size))))
   "Erzeugte die Primzahl eines bestimmten Rangs.
 Beispiele:
    (primzahl 1) => 2
    (primzahl 1000) => 7919
    (primzahl 100000) => 1299709"
   (check-type n (integer 1 *))
-  (nth (1- n) (sieb-des-eratosthenes (* n 18))))
+  (check-type size (integer 1 *))
+  (let ((answer (nth (1- n) primzahlen)))
+	(if answer
+		answer
+		(primzahl n (1+ size)))))
 
 
 (defun prozent (x n)
