@@ -31,6 +31,12 @@
 	 ,@body))
 
 
+(defmacro define-constant (name value &optional doc)
+  "Erstellt Konstanten, die portabel in ANSI Common Lisp sind."
+  `(defconstant ,name (if (boundp ',name) (symbol-value ',name) ,value)
+                      ,@(when doc (list doc))))
+
+
 (defmacro dosequence ((var seq &optional result) &body body
 					  &aux (seq-len (length seq)))
   "Iteriert über die gegebene Sequenz SEQ."

@@ -31,6 +31,7 @@
    #:lösche-alle-memos
    ;; MACROS
    #:with-gensym
+   #:define-constant
    #:dosequence
    #:for
    #:forever
@@ -40,6 +41,29 @@
    #:permutations-rang
    #:until
    #:while
+   ;; CONSTANTS
+   #:lichtgeschwindigkeit-im-vakuum
+   #:magnetische-feldkonstante
+   #:elektrische-feldkonstante
+   #:coloumb-konstante
+   #:elementarladung
+   #:von-klitzing-konstante
+   #:gravitationskonstante
+   #:absoluter-nullpunkt
+   #:avogadro-konstante
+   #:boltzmann-konstante
+   #:loschmidt-konstante
+   #:molares-volumen-eines-idealen-gases
+   #:stefan-boltzmann-konstante
+   #:universelle-gaskonstante
+   #:erste-strahlungskonstante
+   #:spektrale-strahlungskonstante
+   #:zweite-strahlungskonstante
+   #:bohrscher-radius
+   #:bohrsches-magneton
+   #:kernmagneton
+   #:plancksches-wirkungsquantum
+   #:feinstrukturkonstante-mit-planckladung
    ;; PREDICATES
    #:abundante-zahl-p
    #:befreundete-zahl-p

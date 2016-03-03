@@ -6,6 +6,32 @@ importiert werden können. Mir dienten sie unter anderem zur
 Bearbeitung von Aufgaben des Projects Euler.
 
 
+*Konstanten*
+------------
+* **lichtgeschwindigkeit-im-vakuum**
+* **magnetische-feldkonstante**
+* **elektrische-feldkonstante**
+* **coloumb-konstante**
+* **elementarladung**
+* **von-klitzing-konstante**
+* **gravitationskonstante**
+* **absoluter-nullpunkt**
+* **avogadro-konstante**
+* **boltzmann-konstante**
+* **loschmidt-konstante**
+* **molares-volumen-eines-idealen-gases**
+* **stefan-boltzmann-konstante**
+* **universelle-gaskonstante**
+* **erste-strahlungskonstante**
+* **spektrale-strahlungskonstante**
+* **zweite-strahlungskonstante**
+* **bohrscher-radius**
+* **bohrsches-magneton**
+* **kernmagneton**
+* **plancksches-wirkungsquantum**
+* **feinstrukturkonstante-mit-planckladung**
+
+
 *Prädikate*
 -----------
 * **abundante-zahl-p**
