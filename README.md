@@ -6,6 +6,28 @@ importiert werden können. Mir dienten sie unter anderem zur
 Bearbeitung von Aufgaben des Projects Euler.
 
 
+*Memoisierung*
+--------------
+* **defmemo**
+* **lösche-memorisiere**
+* **lösche-alle-memos**
+
+
+*Macros*
+--------
+* **with-gensym**
+* **define-constant**
+* **dosequence**
+* **for**
+* **forever**
+* **in**
+* **let1**
+* **mac**
+* **permutations-rang**
+* **until**
+* **while**
+
+
 *Konstanten*
 ------------
 * **lichtgeschwindigkeit-im-vakuum**

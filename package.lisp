@@ -28,6 +28,8 @@
   (:use :common-lisp)
   (:export
    ;; MEMOS
+   #:defmemo
+   #:lösche-memorisiere
    #:lösche-alle-memos
    ;; MACROS
    #:with-gensym

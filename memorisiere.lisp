@@ -35,17 +35,8 @@
 	(when table (clrhash table))))
 
 
-(defun lösche-alle-memos ()
-  (dolist (i '(achteckszahl
-               dreieckszahl
-               faktor
-               fibonacci
-               fünfeckszahl
-               nächste-primzahl
-               nth-permutation
-               primfaktoren
-               primzahl
-               siebeneckszahl))
+(defun lösche-alle-memos (lst)
+  (dolist (i lst)
     (lösche-memorisiere i)))
 
 
