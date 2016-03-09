@@ -28,7 +28,6 @@
   :components ((:static-file "LICENSE")
 			   (:file "package")
 			   (:file "macros")
-			   (:file "constants")
 			   (:file "memorisiere")
 			   (:file "predicates")
                (:file "cl-hilfsroutinen" :depends-on ("memorisiere" "predicates"))))
