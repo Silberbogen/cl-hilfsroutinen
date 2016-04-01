@@ -38,6 +38,7 @@ Bearbeitung von Aufgaben des Projects Euler.
 * **fünfeckszahlp**
 * **j-oder-n-p**
 * **ja-oder-nein-p**
+* *kombinierbare-primzahlen-p*
 * **kreisförmige-primzahl-p**
 * **lychrel-zahl-p**
 * **palindromp**
@@ -70,6 +71,7 @@ Bearbeitung von Aufgaben des Projects Euler.
 * **fünfeckszahl**
 * **fünfeckszahl-folge**
 * **gleichwertige-elemente**
+* *kombiniere-integer*
 * **mischen**
 * **münzwurf**
 * **nächste-primzahl**

@@ -252,6 +252,12 @@ Beispiel: (gleichwertige-elemente '(rot blau grün) '(grün rot blau)) => "
   (when (and (subsetp a b) (subsetp b a)) t))
 
 
+(defun kombiniere-integer (m n)
+  "(kombiniere-integer m n)
+KOMBINIERBARE-INTEGER erstellt aus den beiden Integer-Zahlen m und n die neue INteger-Zahl mn"
+  (parse-integer (format nil "~d~d" m n)))
+
+
 (defun mischen (lst &optional (durchgang (* 2 (length lst))) &aux (len (length lst)))
   "(mischen liste &optional durchgang)
 MISCHEN dient dazu, eine Liste mit einer frei wählbaren Anzahl an Durchgängen zu mischen. Wird keine Anzahl an Durchgängen genannt, so wird der Vorgang 20 Mal durchgeführt.

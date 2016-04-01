@@ -52,6 +52,7 @@
    #:fünfeckszahlp
    #:j-oder-n-p
    #:ja-oder-nein-p
+   #:kombinierbare-primzahlen-p
    #:kreisförmige-primzahl-p
    #:lychrel-zahl-p
    #:palindromp
@@ -81,6 +82,7 @@
    #:fünfeckszahl
    #:fünfeckszahl-folge
    #:gleichwertige-elemente
+   #:kombiniere-integer
    #:mischen
    #:münzwurf
    #:nächste-primzahl

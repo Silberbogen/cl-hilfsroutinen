@@ -98,6 +98,12 @@ Beispiele: (echte-teilmenge-p '(rot grün) '(grün blau rot gelb)) => T
 			 (return-from ja-oder-nein-p 'nil))))))
 
 
+(defun kombinierbare-primzahlen-p (m n)
+  "Prüft ob die beiden Primzahlen M und N zu zwei neuen Primzahlen MN und NM verbinden lassen."
+  (and (primzahlp (kombiniere-integer m n))
+	   (primzahlp (kombiniere-integer n m))))
+
+
 (defun kreisförmige-primzahl-p (n)
   "Die Ziffern können rotiert werden, vorne raus, hinten rein - und es ergibt sich dennoch immer eine Primzahl."
   (check-type n (integer 0 *))
