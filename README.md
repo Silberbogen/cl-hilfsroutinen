@@ -66,6 +66,7 @@ Bearbeitung von Aufgaben des Projects Euler.
 * **durchschnitt**
 * **eingabe**
 * **faktor**
+* **faktor-festlegen**
 * **fibonacci**
 * **fibonacci-folge**
 * **fünfeckszahl**
