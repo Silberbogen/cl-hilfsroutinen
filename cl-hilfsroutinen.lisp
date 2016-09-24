@@ -211,6 +211,63 @@ Beispiel: (faktor 20) =>  2432902008176640000"
   (reduce #'* (loop for i from 1 to n collect i)))
 
 
+(defun faktor-festlegen (x)
+  (check-type x symbol)
+  (case x
+	((yoctometer) 10e-24)
+	((zeptometer) 10e-21)
+	((am attometer) 10e-18)
+	((femtometer fm) 10e-15)
+	((picometer pm) 1/1000000000000)						 ; 10e-12
+	((Ångström Å) 1/10000000000)							 ; 10e-10
+	((nanometer nm) 1/1000000000)							 ; 10e-9
+	((mikrometer mm2 µm quadratmillimeter) 1/1000000)		 ; 10e-6
+	((cm² quadratzentimeter) 1/10000)						 ; 10e-4
+	((mm millimeter tausendstel) 1/1000)					 ; 10e-3
+	((cm dm² hundertstel quadratdezimeter centimeter) 1/100) ; 10e-2
+	((inch zoll) 0.0254)
+	((dm dezimeter zehntel) 1/10)		; 10e-1
+	((foot fuß) 0.3048)					; 12 inches
+	((gerte schritt yard yd) 0.9144)	; 3 feet
+	((bit g gramm m m² meter qm quadratmeter) 1)
+	((fathom fth) 1.8288)				; 6 feet
+	((byte octet oktett) 8)
+	((square-foot) 10.7639)
+	((duzend) 12)
+	((shackle shot) 27.432)				; 15 fathom
+	((a ar hundert) 100)				; 10e2
+	((gros gröthen gruessa tylt) 144)
+	((pfund) 500)
+	((kb kg km kilobyte kilogramm kilometer myriameter tausend) 1000) ; 10e3
+	((kib kibibyte) 1024)				; 2e10
+	((square-inch) 1550.0031)
+	((meile mile) 1609.344)				; 5280 feet
+	((großes-gros großgros maß) 1728)
+	((seemeile) 1852)
+	((international-nautical-mile) 1852.01)
+	((acre) 4046.8564)
+	((league nautical-league sea-league) 5559.552) ; 3 admirality sea miles
+	((ha hektar zehntausend) 10000)				   ; 10e4
+	((zentner ztr) 50000)
+	((dezitonne dezitonnen doppelzentner dt dz) 100000) ; 10e5
+	((km² mb megabyte megameter ) 1000000)				; 10e6
+	((mib mebibyte) 1048576)							; 2e20
+	((square-mile) 2589988.1103)
+	((gb gigabyte gigameter gm kilotonne kilotonnen kt milliarde) 1000000000) ; 10e9
+	((gib gibibyte) 1073741824)			; 2e30
+	((billion megatonne mt tb terabyte terameter tm) 1000000000000) ; 10e12
+	((tebibyte tib) 1099511627776)		; 2e40
+	((billiarde pb petabyte petameter) 10e15)
+	((pebibyte pib) 1125899906842624)	; 2e50
+	((eb exabyte em exameter) 10e18)
+	((exbibyte eib) 1152921504606846976) ; 2e60
+	((zb zettabyte zettameter) 10e21)
+	((zebibyte zib) 1180591620717411303424) ; 2e70
+	((yb yottabyte yottameter) 10e24)
+	((yobibyte yib) 1208925819614629174706176) ; 2e80
+	(otherwise (error "Sorry, unbekannt!"))))
+
+
 (defmemo fibonacci (n)
   "Bildet die Fibonaccizahl zur n. Zahl; Beispiel: (fibonacci 20) => 6765"
   (check-type n (integer 0 *))
@@ -452,10 +509,10 @@ Beispiel: (quersumme 125) => 8"
   (check-type max integer)
   (unless (primzahlp start)	(setf start (nächste-primzahl start)))
   (do* ((i start (nächste-primzahl i))
-	   (sum i (+ sum i))
-	   (anz 1 (1+ anz)))
-	  ((> (+ sum i) max)
-	   (values sum anz))))
+		(sum i (+ sum i))
+		(anz 1 (1+ anz)))
+	   ((> (+ sum i) max)
+		(values sum anz))))
 
 
 (defun tausche-ziffer (n old-dig new-dig)
@@ -466,7 +523,7 @@ Beispiel: (quersumme 125) => 8"
   (assert (<= 0 old-dig 9))
   (assert (<= 0 new-dig 9))
   (ziffern->zahl (mapcar #'(lambda (x) (if (= x old-dig) new-dig x))
-					   (zahl->ziffern n))))
+						 (zahl->ziffern n))))
 
 
 (defun temperatur (n &optional (smbl 'celsius))
@@ -528,66 +585,11 @@ Beispiel: (umwandeln 10 'cm 'mm) => 100 MM"
   (check-type n number)
   (check-type von symbol)
   (check-type nach symbol)
-  (flet ((faktor-festlegen (n)
-		   (case n
-			 ((yoctometer) 10e-24)
-			 ((zeptometer) 10e-21)
-			 ((am attometer) 10e-18)
-			 ((femtometer fm) 10e-15)
-			 ((picometer pm) 1/1000000000000) ; 10e-12
-			 ((Ångström Å) 1/10000000000) ; 10e-10
-			 ((nanometer nm) 1/1000000000) ; 10e-9
-			 ((mikrometer mm2 µm quadratmillimeter) 1/1000000) ; 10e-6
-			 ((cm2 quadratzentimeter) 1/10000) ; 10e-4
-			 ((mm tausendstel) 1/1000) ; 10e-3
-			 ((cm dm2 hundertstel quadratdezimeter zentimeter) 1/100) ; 10e-2
-			 ((inch zoll) 0.0254)
-			 ((dm dezimeter zehntel) 1/10) ; 10e-1
-			 ((foot fuß) 0.3048) ; 12 inches
-			 ((gerte schritt yard yd) 0.9144) ; 3 feet
-			 ((bit g gramm m m2 meter qm quadratmeter) 1)
-			 ((fathom fth) 1.8288) ; 6 feet
-			 ((byte octet oktett) 8)
-			 ((square-foot) 10.7639)
-			 ((dutzend) 12)
-			 ((shackle shot) 27.432) ; 15 fathom
-			 ((a ar hundert) 100) ; 10e2
-			 ((gros gröthen gruessa tylt) 144)
-			 ((pfund) 500)
-			 ((kb kg km kilobyte kilogramm kilometer myriameter tausend) 1000) ; 10e3
-			 ((kib kibibyte) 1024) ; 2e10
-			 ((square-inch) 1550.0031)
-			 ((meile mile) 1609.344) ; 5280 feet
-			 ((großes-gros großgros maß) 1728)
-			 ((seemeile) 1852)
-			 ((international-nautical-mile) 1852.01)
-			 ((acre) 4046.8564)
-			 ((league nautical-league sea-league) 5559.552) ; 3 admirality sea miles
-			 ((ha hektar zehntausend) 10000) ; 10e4
-			 ((zentner ztr) 50000)
-			 ((dezitonne dezitonnen doppelzentner dt dz) 100000) ; 10e5
-			 ((km2 mb megabyte megameter ) 1000000) ; 10e6
-			 ((mib mebibyte) 1048576) ; 2e20
-			 ((square-mile) 2589988.1103)
-			 ((gb gigabyte gigameter gm kilotonne kilotonnen kt milliarde) 1000000000) ; 10e9
-			 ((gib gibibyte) 1073741824) ; 2e30
-			 ((billion megatonne mt tb terabyte terameter tm) 1000000000000) ; 10e12
-			 ((tebibyte tib) 1099511627776) ; 2e40
-			 ((billiarde pb petabyte petameter) 10e15)
-			 ((pebibyte pib) 1125899906842624) ; 2e50
-			 ((eb exabyte em exameter) 10e18)
-			 ((exbibyte eib) 1152921504606846976) ; 2e60
-			 ((zb zettabyte zettameter) 10e21)
-			 ((zebibyte zib) 1180591620717411303424) ; 2e70
-			 ((yb yottabyte yottameter) 10e24)
-			 ((yobibyte yib) 1208925819614629174706176) ; 2e80
-			 (otherwise nil))))
-	(if (eql von nach)
-		(values n nach)
-		(let ((faktor1 (faktor-festlegen von))
-			  (faktor2 (faktor-festlegen nach)))
-		  (/ (* n faktor1) faktor2)))))
-
+  (if (eql von nach)
+	  (values n nach)
+	  (let ((faktor1 (faktor-festlegen von))
+			(faktor2 (faktor-festlegen nach)))
+		(/ (* n faktor1) faktor2))))
 
 (defun wochentag (tag monat jahr)
   "Gibt den Tag der Woche zurück, als Zahl und als Symbol"
