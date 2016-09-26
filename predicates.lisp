@@ -24,13 +24,13 @@
 (in-package #:cl-hilfsroutinen)
 
 
-(defun abundante-zahl-p (n)
+(defmemo abundante-zahl-p (n)
   "Eine natürliche Zahl heißt abundant (lat. abundans „überladen“), wenn ihre echte Teilersumme (die Summe aller Teiler ohne die Zahl selbst) größer ist als die Zahl selbst. Die kleinste abundante Zahl ist 12 (1+2+3+4+6 = 16 > 12). Die ersten geraden abundanten Zahlen lauten 12, 18, 20, 24, 30, 36, 40, 42, …"
   (check-type n (integer 1 *))
   (> (apply #'+ (divisoren n t)) n))
 
 
-(defun befreundete-zahl-p (n)
+(defmemo befreundete-zahl-p (n)
   "Zwei verschiedene natürliche Zahlen, von denen wechselseitig jeweils eine Zahl gleich der Summe der echten Teiler der anderen Zahl ist, bilden ein Paar befreundeter Zahlen.
 Das kleinste befreundete Zahlenpaar wird von den Zahlen 220 und 284 gebildet. Man rechnet leicht nach, dass die beiden Zahlen der Definition genügen:
     Die Summe der echten Teiler von 220 ergibt 1 + 2 + 4 + 5 + 10 + 11 + 20 + 22 + 44 + 55 + 110 = 284 und die Summe der echten Teiler von 284 ergibt 1 + 2 + 4 + 71 + 142 = 220.
@@ -41,7 +41,7 @@ In einem befreundeten Zahlenpaar ist stets die kleinere Zahl abundant und die gr
 	  bz)))
 
 
-(defun dreieckszahlp (n)
+(defmemo dreieckszahlp (n)
   "Prüft ob eine Zahl eine Dreieckszahl ist."
   (check-type n (integer 0 *))
   (let ((wert (sqrt (1+ (* 8 n)))))
@@ -59,7 +59,7 @@ Beispiele: (echte-teilmenge-p '(rot grün) '(grün blau rot gelb)) => T
 	t))
 
 
-(defun fünfeckszahlp (n)
+(defmemo fünfeckszahlp (n)
   "Prüft ob eine Zahl eine Fünfeckszahl ist."
   (check-type n (integer 0 *))
   (let ((wert (/ (1+ (sqrt (1+ (* 24 n)))) 6)))
@@ -104,7 +104,7 @@ Beispiele: (echte-teilmenge-p '(rot grün) '(grün blau rot gelb)) => T
 	   (primzahlp (kombiniere-integer n m))))
 
 
-(defun kreisförmige-primzahl-p (n)
+(defmemo kreisförmige-primzahl-p (n)
   "Die Ziffern können rotiert werden, vorne raus, hinten rein - und es ergibt sich dennoch immer eine Primzahl."
   (check-type n (integer 0 *))
   (let ((len (length (zahl->ziffern n))))
@@ -159,17 +159,19 @@ Beispiele: (palindromp '(1 2 3 4 3 2 1)) => T
 	(otherwise nil)))
 
 
-(defun pandigitalp (n)
+(defmemo pandigitalp (n)
   "Prüft, ob die Zahl n pandigital ist. Eine pandigitale Zahl (aus griechisch παν: „jedes“ und digital) ist eine dezimale ganze Zahl, die jede der zehn Ziffern von 0 bis 9 genau einmal enthält. Die erste Ziffer darf dabei nicht 0 sein."
   (typecase n
 	(null nil)
+	(string (let ((p (search (sort n #'char<) "123456789")))
+			  (if (and (integerp p) (zerop p)) t nil)))
 	(number (let ((p (search (sort (prin1-to-string n) #'char<) "123456789")))
 			  (if (and (integerp p) (zerop p)) t nil)))
 	(list (equal (sort n #'<) '(1 2 3 4 5 6 7 8 9)))
 	(otherwise nil)))
 
 
-(defun primzahlp (n)
+(defmemo primzahlp (n)
   "Prüft ob eine Zahl eine echte Primzahl ist.
 Beispiele:
    (primzahlp 24) => NIL
@@ -192,7 +194,7 @@ Beispiele:
   (= n (expt (isqrt n) 2)))
 
 
-(defun trunkierbare-primzahl-p (n)
+(defmemo trunkierbare-primzahl-p (n)
   "Die Primzahl N bleibt eine Primzahl, selbst wenn die Ziffern von vorne oder von hinten abgetrennt werden."
   (check-type n integer)
   (when (and (> n 9)
@@ -206,7 +208,7 @@ Beispiele:
 		(return nil)))))
 
 
-(defun vollkommene-zahl-p (n)
+(defmemo vollkommene-zahl-p (n)
   "Eine natürliche Zahl n wird vollkommene Zahl (auch perfekte Zahl) genannt, wenn sie gleich der Summe σ*(n) aller ihrer (positiven) Teiler außer sich selbst ist. Eine äquivalente Definition lautet: eine vollkommene Zahl n ist eine Zahl, die halb so groß ist wie die Summe aller ihrer positiven Teiler (sie selbst eingeschlossen), d. h. σ(n) = 2n. Die kleinsten drei vollkommenen Zahlen sind 6, 28 und 496. Alle bekannten vollkommenen Zahlen sind gerade und von Mersenne-Primzahlen abgeleitet."
   (check-type n (integer 1 *))
   (= n (apply #'+ (divisoren n t))))
