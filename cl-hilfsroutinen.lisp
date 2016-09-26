@@ -533,9 +533,9 @@ Beispiel: (quersumme 125) => 8"
 				  ((celsius c) (+ n 273.15))
 				  ((fahrenheit f) (* (+ n 459.67) 5/9))
 				  ((kelvin k) n))))
-    (when kelvin (values kelvin
-						 (- kelvin 273.15)
-						 (- (* kelvin 1.8) 459.67)))))
+    (values kelvin
+			(- kelvin 273.15)
+			(- (* kelvin 1.8) 459.67))))
 
 
 (defun text-ausgabe (ctrl &rest args)
