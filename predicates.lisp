@@ -24,7 +24,7 @@
 (in-package #:cl-hilfsroutinen)
 
 
-(defun abundante-zahl-p (n)
+(defmemo abundante-zahl-p (n)
   "Eine natürliche Zahl heißt abundant (lat. abundans „überladen“), wenn ihre echte Teilersumme (die Summe aller Teiler ohne die Zahl selbst) größer ist als die Zahl selbst. Die kleinste abundante Zahl ist 12 (1+2+3+4+6 = 16 > 12). Die ersten geraden abundanten Zahlen lauten 12, 18, 20, 24, 30, 36, 40, 42, …"
   (check-type n (integer 1 *))
   (> (apply #'+ (divisoren n t)) n))
@@ -159,7 +159,7 @@ Beispiele: (palindromp '(1 2 3 4 3 2 1)) => T
 	(otherwise nil)))
 
 
-(defun pandigitalp (n)
+(defmemo pandigitalp (n)
   "Prüft, ob die Zahl n pandigital ist. Eine pandigitale Zahl (aus griechisch παν: „jedes“ und digital) ist eine dezimale ganze Zahl, die jede der zehn Ziffern von 0 bis 9 genau einmal enthält. Die erste Ziffer darf dabei nicht 0 sein."
   (typecase n
 	(null nil)
@@ -171,7 +171,7 @@ Beispiele: (palindromp '(1 2 3 4 3 2 1)) => T
 	(otherwise nil)))
 
 
-(defun primzahlp (n)
+(defmemo primzahlp (n)
   "Prüft ob eine Zahl eine echte Primzahl ist.
 Beispiele:
    (primzahlp 24) => NIL
