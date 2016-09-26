@@ -124,6 +124,8 @@
    #:freitag
    #:samstag
    #:sonntag
+   #:alles
+   #:nichts
    #:yoctometer
    #:zeptometer
    #:am
