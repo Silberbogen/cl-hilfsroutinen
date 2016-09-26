@@ -76,6 +76,7 @@
    #:dreisatz
    #:durchschnitt
    #:eingabe
+   #:eingabe-zahl
    #:faktor
    #:faktor-festlegen
    #:fibonacci

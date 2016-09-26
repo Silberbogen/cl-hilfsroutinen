@@ -190,7 +190,7 @@ Beispiel: (durchschnitt 2 3 4) => 3"
 
 (defun eingabe (&optional ctrl &rest args)
   "Erzwingt eine Eingabe."
-  (check-type ctrl string)
+;;  (check-type ctrl string)
   (do ((danach nil t)
 	   (ctrl (concatenate 'string "~&" ctrl " > "))
 	   (antwort ""))
@@ -200,6 +200,19 @@ Beispiel: (durchschnitt 2 3 4) => 3"
 	(apply #'format *query-io* ctrl args)
 	(force-output *query-io*)
 	(setf antwort (string-trim " " (read-line *query-io*)))))
+
+
+(defun eingabe-zahl (&optional ctrl &rest args)
+  "Erzwingt die Eingabe einer Zahl, wobei ein eingegebenes Komma in einen Punkt verwandelt wird."
+  (do ((danach nil t)
+	   (ctrl (concatenate 'string "~&" ctrl " > "))
+	   (antwort nil))
+	  ((numberp antwort)
+	   antwort)
+	(when danach (format *query-io* "~&Bitte tippe deine Antwort ein und drücke dann die Eingabe-Taste.~%"))
+	(apply #'format *query-io* ctrl args)
+	(force-output *query-io*)
+	(setf antwort (read-from-string (substitute #\. #\, (read-line *query-io*))))))
 
 
 (defmemo faktor (n)
