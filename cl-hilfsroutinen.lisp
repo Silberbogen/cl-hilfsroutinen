@@ -196,7 +196,7 @@ Beispiel: (durchschnitt 2 3 4) => 3"
 	   (antwort ""))
 	  ((string/= antwort "")
 	   antwort)
-	(when danach (format *query-io* "~&Bitte tippe deine Antwort ein und drücke dann die Eingabe-Taste.~%"))
+	(when danach (format *query-io* "~&Bitte tippe deine Antwort ein und drücke danach die Eingabe-Taste.~%"))
 	(apply #'format *query-io* ctrl args)
 	(force-output *query-io*)
 	(setf antwort (string-trim " " (read-line *query-io*)))))
@@ -363,7 +363,7 @@ Beispiele:
          when (primzahlp i) return i)))
 
 
-(defmemo nth-permutation (n lst)
+(defun nth-permutation (n lst)
   "Gibt die nte Permutation einer Liste zurück. Die Zählung beginnt bei NULL."
   (check-type n (integer 0 *))
   (check-type lst list)
