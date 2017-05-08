@@ -52,12 +52,6 @@
   (* (- (* 3 n) 2) n))
 
 
-(defun addiere-ziffern (n)
-  "Nimmt eine Integerzahl entgegen und gibt die Summe all ihrer Ziffern zurück.
-Beispiel: (addiere-ziffern 125) => 8"
-  (check-type n (integer 0 *))
-  (apply #'+ (zahl->ziffern n)))
-
 
 (defun alle-permutationen (lst)
   "Alle Permutationen einer Liste erzeugen; Beispiel: (alle-permutationen (list 'a 'b 'c 'd 'e))"

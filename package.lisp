@@ -64,7 +64,6 @@
    ;; FUNCTIONS
    #:2d-array->list
    #:achteckszahl
-   #:addiere-ziffern
    #:alle-permutationen
    #:alphabetischer-wert
    #:arabisch->römisch
